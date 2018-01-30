@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  h2() #{monstring} aujourd'hui !
+  a(href="/qce", monattr="bite") Le lien
+  div
+    a= string
+    h2
+  div
+    a toto
+    div
+      h1 dans div
+
+block javascript
