@@ -53,15 +53,17 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // custom views for error
-  if (err.status.toString().startsWith("40")){
-      res.render('errors/40x')
-  } else if (err.status.toString().startsWith("50")){
-      res.render('errors/50x')
-  } else {
-      // render the error page
-      res.status(err.status || 500);
-      res.render('error');
-  }
+    if (err.status !== 200) {
+        if ((err.status).toString().startsWith("40")) {
+            res.render('errors/40x')
+        } else if (err.status.toString().startsWith("50")) {
+            res.render('errors/50x')
+        } else {
+            // render the error page
+            res.status(err.status || 500);
+            res.render('error');
+        }
+    }
 });
 
 module.exports = app;
