@@ -1,1 +1,15 @@
 extends ../layout
+
+block content
+    if error.status === 404
+        div.container-fluid
+            div.row
+                div.col
+                    h3.pr-3.mt-3 #{error.status} La page demandée n'existe pas..
+                    img.img-fluid.mx-auto(src='../images/ohno.png', style='max-width:75%')
+    else if error.status === 403
+        div.container-fluid
+            div.row
+                div.col
+                    h3.pr-3.mt-3 #{error.status} Accés Refusé!
+                    img.img-fluid.mx-auto(src='../images/ohno.png', style='max-width:75%')
