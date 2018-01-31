@@ -1,13 +1,20 @@
 extends ../layout
 
 block content
-    div.container-fluid
-        div.row
-            div.col.bg-success
-                block subnavbar
-        div.row
-            block aside
 
-            block main
-                div.col-10.bg-primary
-                    h4 tot
+    div.container-fluid.fill.h-100
+        div.row
+            div.col-12
+                block subnavbar
+        div.row.h-100
+                div.aside.nav#sidebar.shadow-1(style="width:15%")
+                    ul.list-unstyled
+                        block aside
+                div.control_btn.d-flex.align-items-center(style="margin-left:-20px")
+                    button.shadow-3.btn.btn-primary.rounded-circle#sidebar_btn(style="z-index:1000")
+                        i.material-icons#icon_control_btn keyboard_arrow_left
+                div.main
+
+                    block main
+                        p folder here
+    script(src="javascripts/main_layout.js")
