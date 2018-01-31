@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon --watch public --watch routes --watch views -e pug --watch app.js ./bin/www"
+    "start": "nodemon --watch public --watch routes --watch views -e pug,js --watch app.js ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.18.2",

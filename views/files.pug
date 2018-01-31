@@ -1,0 +1,23 @@
+extends layout_main
+
+block subnavbar
+    button.btn.btn-primary.btn-sm.mr-1(type="submit") Upload
+    button.btn.btn-primary.btn-sm.mr-1(type="submit") Folder
+
+block aside
+    div.nav.col-md-2.d-none.d-md-block.bg-light.sidebar
+        ul.nav.flex-column
+            li.nav-item
+                a.nav-link.d-flex(href="#")
+                    i.material-icons.mr-2 folder
+                    | MyFiles
+            li.nav-item
+                a.nav-link.d-flex(href="#")
+                    i.material-icons.mr-2 folder_shared
+                    | SharedFiles
+            li.nav-item
+                a.nav-link.d-flex(href="#")
+                    i.material-icons.mr-2 delete
+                    | Trash
+
+

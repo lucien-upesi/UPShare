@@ -15,6 +15,8 @@ router.get('/register', (req, res, next)=> {
     res.render('register', { title: 'Register', csrfToken: req.csrfToken(), countries: countries});
 });
 
-
+router.get('/files', (req, res, next)=> {
+    res.render('files', { title: 'Files', csrfToken: req.csrfToken()});
+});
 
 module.exports = router;
