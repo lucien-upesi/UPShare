@@ -19,6 +19,8 @@ router.get('/account', (req, res, next)=> {
     res.render('user/account', { title: 'Account', csrfToken: req.csrfToken(), countries: countries});
 });
 
-
+router.get('/files', (req, res, next)=> {
+    res.render('files', { title: 'Files', csrfToken: req.csrfToken()});
+});
 
 module.exports = router;
