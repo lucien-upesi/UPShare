@@ -20,7 +20,7 @@ router.get('/account', (req, res, next)=> {
 });
 
 router.get('/files', (req, res, next)=> {
-    res.render('files', { title: 'Files', csrfToken: req.csrfToken()});
+    res.render('main_view/files', { title: 'Files', csrfToken: req.csrfToken()});
 });
 
 module.exports = router;
