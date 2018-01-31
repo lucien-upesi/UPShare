@@ -1,13 +1,15 @@
-extends layout
+extends ../layout
 
 block content
-    div.container-fluid
-        div.row
-            div.col
+    div.container-fluid.h-100.fill.mt-5
+        div.row.justify-content-center.align-items-center.h-75
+            div.col.col-md-6.align-middle.shadow-1
+                h1.m-5.text-center Create an account
                 form(action="/users/register", method="post")
                     div.form-group
                         label First name
                         input.form-control(type="text", name="register_first_name", required)
+
 
                     div.form-group
                         label Last name
@@ -39,4 +41,5 @@ block content
 
                     input(type="hidden", value=csrfToken, name="_csrf")
 
-                    button.btn.btn-primary(type="submit") S'inscrire
+                    div.d-flex.justify-content-center
+                        button.btn.btn-primary.w-50.mb-3(type="submit") S'inscrire
