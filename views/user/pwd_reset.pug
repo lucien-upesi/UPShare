@@ -1,0 +1,24 @@
+extends ../layout
+
+block content
+    script(src="/javascripts/user/pwd_reset.js")
+    div.container-fluid.h-100.fill
+        div.row.justify-content-center.align-items-center.h-100
+            div.col-xs-12.shadow-1.p-4
+                h1.mb-5.mt-3.text-center= title
+                form(action=path+"user/password_reset", method="POST", id="pwd_reset_form")
+                    div.form-group.mb-3
+                        label.font-weight-bold New password
+                        input#pwd_input.form-control.form-control-lg(type="password", name="password", required=true)
+
+                    div.form-group.mb-3
+                        label.font-weight-bold Confirmation
+                        input#repwd_input.form-control.form-control-lg(type="password", name="repassword", placeholder="Re-type password", required=true, onkeyup="verify()")
+
+                    div.alert.alert-danger(role="alert", hidden=true, id="pwd_reset_error") Mots de passe différents !
+
+                    input(type="hidden", name="_csrf", value=csrfToken)
+                    //input(type="hidden", name="id", value=userId)
+                    div.form-group.text-center
+                        button.btn.btn-primary.btn-lg(type="submit", id="pwd_reset_btn", disabled=true) Soumettre
+

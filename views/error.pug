@@ -1,6 +1,14 @@
 extends layout
 
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+  div.container-fluid
+    div.row
+      div.col
+        if error.status === 404
+          h3.pr-3.mt-3 #{error.status} #{error.message}
+
+        else
+          h3.pr-3.mt-3 #{error.status} Error
+          pre #{error.stack}
+
+        img.img-fluid.mx-auto(src='../images/ohno.png', style='max-width:75%')
