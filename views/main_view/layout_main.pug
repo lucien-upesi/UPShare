@@ -6,14 +6,27 @@ block content
             div.col-12
                 block subnavbar
         div.row(style="margin-bottom:0.5rem; margin-top:0.3rem")
-                div.aside.nav#sidebar(style="width:18%")
-                    ul.list-unstyled
+                div.aside.nav.col-2#sidebar
+                    ul.list-unstyled.w-100
                         block aside
-                div.main
+                //div w/col-10 to fit in web-page
+                div.main.col-10(style="margin-top:2.5rem")
 
                     block main
-                        p.shadow-1 folder here
-                        p.shadow-1 folder
-                        p.shadow-1 folder herechgc
-                        p.shadow-1 folder herehgchc
+                        //div w/white border and separator to draw files & folders
+                        div(style="border:1px solid #e5e5e5; background-color:#FFFFFF")
+                            //TODO: replace after w/tables
+
+                            table
+                                thead
+                                    tr
+                                        th(scope="col") #
+                                        th(scope="col") FileName
+                                        th(scope="col") Modified
+                                tbody
+                                    tr
+                                        th(scope="row")
+                                            i.material-icons.mr-2 folder_shared
+                                                | MyFolder
+
     script(src="javascripts/main_layout.js")
