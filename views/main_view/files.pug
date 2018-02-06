@@ -1,20 +1,19 @@
 extends layout_main
 
-block subnavbar
-    button.btn.btn-primary.btn-sm.m-1(type="submit") Upload
-    button.btn.btn-primary.btn-sm.m-1(type="submit") Folder
-
 block aside
     li.nav-item
-        a.nav-link.d-flex(href="#")
+        button.btn.btn-primary.btn-sm.m-1(type="submit") Upload
+        button.btn.btn-primary.btn-sm.m-1(type="submit") Folder
+    li.nav-item
+        a.nav-link.d-flex.text-dark(href="#")
             i.material-icons.mr-2 folder
             | MyFiles
     li.nav-item
-        a.nav-link.d-flex(href="#")
+        a.nav-link.d-flex.text-dark(href="#")
             i.material-icons.mr-2 folder_shared
             | SharedFiles
     li.nav-item
-        a.nav-link.d-flex(href="#")
+        a.nav-link.d-flex.text-dark(href="#")
             i.material-icons.mr-2 delete
             | Trash
 
