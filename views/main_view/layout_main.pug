@@ -6,15 +6,16 @@ block content
         div.row
             div.col-12
                 block subnavbar
-        div.row.h-100
-                div.aside.nav#sidebar.shadow-1(style="width:15%")
+        div.row(style="margin-bottom:0.5rem; margin-top:0.3rem")
+                div.aside.nav#sidebar.shadow-1(style="width:18%")
                     ul.list-unstyled
                         block aside
-                div.control_btn.d-flex.align-items-center(style="margin-left:-20px")
-                    button.shadow-3.btn.btn-primary.rounded-circle#sidebar_btn(style="z-index:1000")
-                        i.material-icons#icon_control_btn keyboard_arrow_left
+                //shadow degueulasse
+                div.control_btn.d-flex.align-items-center(style="margin-left:-17px")
+                    button.shadow-2.btn.btn-primary.rounded-circle#sidebar_btn(style="z-index:1000; padding: 0.0rem 0.3rem")
+                        i.material-icons#icon_control_btn(style="padding-top:5px") keyboard_arrow_left
                 div.main
 
                     block main
-                        p folder here
+                        p(style="margin-left:0.5rem") folder here
     script(src="javascripts/main_layout.js")
