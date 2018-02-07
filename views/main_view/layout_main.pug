@@ -1,5 +1,16 @@
 extends ../layout
 
+mixin table-header(header)
+    th(scope="col") #{header}
+
+mixin table-row(...rows)
+    tr
+        th(scope="row")
+            if block
+                block
+            each row in rows
+                td #{row}
+
 block content
     div.container-fluid.fill.h-100
         div.row
@@ -9,10 +20,24 @@ block content
                 div.aside.nav#sidebar.col-2
                     ul.list-unstyled
                         include aside
-                div.main.col-10
+                div.main.col-10(style="margin-top:2.5rem")
                     block main
-                        p.shadow-1 folder here//
-                        p.shadow-1 folder
-                        p.shadow-1 folder herechgc
-                        p.shadow-1 folder herehgchc
+                        div(style="border:1px solid #e5e5e5; background-color:#FFFFFF")
+                            table.table.table-hover.w-100
+                                thead.thead-inverse.font-weight-normal
+                                    tr
+                                        +table-header("")
+                                        +table-header("FileName")
+                                        +table-header("Modified")
+                                tbody
+                                        +table-row("Folder1", "10.04.2017")
+                                            i.material-icons folder
+                                        +table-row("FolderShared1", "10.04.2017")
+                                            i.material-icons folder_shared
+                                        +table-row("Folder3", "10.04.2017")
+                                            i.material-icons folder
+                                        +table-row("File1", "10.04.2017")
+                                            i.material-icons insert_drive_file
+
+
     script(src="javascripts/main_layout.js")
