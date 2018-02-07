@@ -8,8 +8,18 @@ mixin table-row(...rows)
         th(scope="row")
             if block
                 block
+
             each row in rows
-                td #{row}
+                td(style="vertical-align:middle") #{row}
+
+            td(style="width:15%")
+                a.btn.btn-info.btn-sm
+                    i.material-icons.align-middle mode_edit
+                a.btn.btn-danger.btn-sm(style="margin-left: 0.5rem")
+                    i.material-icons.align-middle delete_forever
+
+mixin table-icon(icon, style)
+    i.material-icons(style=style)= icon
 
 block content
     div.container-fluid.fill.h-100
@@ -17,27 +27,28 @@ block content
             div.col-12
                 block subnavbar
         div.row(style="margin-bottom:0.5rem; margin-top:0.3rem")
-                div.aside.nav#sidebar.col-2
-                    ul.list-unstyled
-                        include aside
-                div.main.col-10(style="margin-top:2.5rem")
-                    block main
-                        div(style="border:1px solid #e5e5e5; background-color:#FFFFFF")
-                            table.table.table-hover.w-100
-                                thead.thead-inverse.font-weight-normal
-                                    tr
-                                        +table-header("")
-                                        +table-header("FileName")
-                                        +table-header("Modified")
-                                tbody
-                                        +table-row("Folder1", "10.04.2017")
-                                            i.material-icons folder
-                                        +table-row("FolderShared1", "10.04.2017")
-                                            i.material-icons folder_shared
-                                        +table-row("Folder3", "10.04.2017")
-                                            i.material-icons folder
-                                        +table-row("File1", "10.04.2017")
-                                            i.material-icons insert_drive_file
+            div.aside.nav#sidebar.col-2
+                ul.list-unstyled
+                    include aside
+            div.main.col-10(style="margin-top:2.5rem")
+                block main
+                    div(style="border:1px solid #e5e5e5; background-color:#FFFFFF")
+                        table.table.table-hover.w-100
+                            thead.thead-inverse.font-weight-normal
+                                tr
+                                    +table-header("")
+                                    +table-header("FileName")
+                                    +table-header("Modified")
+                                    +table-header("")
+                            tbody
+                                +table-row("Folder1", "10.04.2017")
+                                    +table-icon("folder", "vertical-align:middle")
+                                +table-row("FolderShared1", "10.04.2017")
+                                    +table-icon("folder_shared", "vertical-align:middle")
+                                +table-row("Folder2", "10.04.2017")
+                                    +table-icon("folder", "vertical-align:middle")
+                                +table-row("File1", "10.04.2017")
+                                    +table-icon("insert_drive_file", "vertical-align:middle")
 
 
     script(src="javascripts/main_layout.js")
