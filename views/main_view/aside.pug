@@ -1,7 +1,7 @@
 extends layout_main
 
 block aside
-    li.nav-item
+    li
         button.btn.btn-primary.btn-sm.m-1(type="submit") Upload
         button.btn.btn-primary.btn-sm.m-1(type="submit") Folder
     li.nav-item
@@ -12,6 +12,7 @@ block aside
         a.nav-link.d-flex.text-dark(href="#")
             i.material-icons.mr-2 folder_shared
             | SharedFiles
+    hr
     li.nav-item
         a.nav-link.d-flex.text-dark(href="#")
             i.material-icons.mr-2 delete
