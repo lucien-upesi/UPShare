@@ -20,11 +20,11 @@ router.get('/account', (req, res, next)=> {
 });
 
 router.get('/files', (req, res, next)=> {
-    res.render('main_view/files', { title: 'Files', csrfToken: req.csrfToken()});
+    res.render('main_view/layout_main', { title: 'Files', csrfToken: req.csrfToken()});
 });
 
 router.get('/groups', (req, res, next)=> {
-    res.render('main_view/groups', { title: 'Groups', csrfToken: req.csrfToken()});
+    res.render('main_view/layout_main', { title: 'Groups', csrfToken: req.csrfToken()});
 });
 
 module.exports = router;
