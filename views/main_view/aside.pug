@@ -19,21 +19,23 @@ mixin nav-form(action, form_id, btn_id, type, text)
             button.btn.btn-primary.btn-sm.m-1(type="submit", id=btn_id)=text
 
 block aside
-        if(title === 'Files')
-            li
-                +nav-form("/uploads", "upload_form", "upload_btn", "file", "Upload")
-                +nav-form("/folder/new", "folder_form", "folder_btn", "folder", "New folder")
+    div.aside.nav#sidebar.col-2
+        ul.list-unstyled
+            if(title === 'Files')
+                li
+                    +nav-form("/uploads", "upload_form", "upload_btn", "file", "Upload")
+                    +nav-form("/folder/new", "folder_form", "folder_btn", "folder", "New folder")
 
-            +nav-item-sidebar("/files", "folder", "MyFiles")
-            +nav-item-sidebar("/shared", "folder_shared", "Shared Files")
-            hr
-            +nav-item-sidebar("/bin", "delete", "Trash")
-        else if(title === 'Groups')
-            li
-                +nav-btn("join_btn", "Join/Create", "Join/Create")
-            +nav-item-sidebar("/mygroup", "group", "My Groups")
-            hr
-            +nav-item-sidebar("/sharedgroup", "group_add", "Shared groups")
+                +nav-item-sidebar("/files", "folder", "MyFiles")
+                +nav-item-sidebar("/shared", "folder_shared", "Shared Files")
+                hr
+                +nav-item-sidebar("/bin", "delete", "Trash")
+            else if(title === 'Groups')
+                li
+                    +nav-btn("join_btn", "Join/Create", "Join/Create")
+                +nav-item-sidebar("/mygroup", "group", "My Groups")
+                hr
+                +nav-item-sidebar("/sharedgroup", "group_add", "Shared groups")
 
 
 
