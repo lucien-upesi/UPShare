@@ -1,18 +1,21 @@
-class Modal{
-    constructor() {
+class EZModal{
+    constructor(modal_id, dismissable = true) {
 
-        this.skeleton = document.createElement('template');
-        this.skeleton.innerHTML = this.HTMLSkeleton().trim();
+        this._modal_id = modal_id;
+        this._dismissable = dismissable;
 
-        this.header = this.skeleton.content.querySelector(".modal-header");
-        this.body = this.skeleton.content.querySelector(".modal-body");
-        this.footer = this.skeleton.content.querySelector(".modal-footer");
+        this._skeleton = document.createElement('template');
+        this._skeleton.innerHTML = this.HTMLSkeleton().trim();
 
+        this._header = this._skeleton.content.querySelector(".modal-header");
+        this._body = this._skeleton.content.querySelector(".modal-body");
+        this._footer = this._skeleton.content.querySelector(".modal-footer");
+
+        this._onShow = false;
     }
 
-
     HTMLSkeleton(){
-        return "<div class=\"modal fade\" id=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"modal-title\" aria-hidden=\"true\">" +
+        return "<div class=\"modal fade\" id="+ this._modal_id+" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"modal-title\" aria-hidden=\"true\">" +
             "  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">" +
             "    <div class=\"modal-content\">" +
             "      <div class=\"modal-header\">" +
@@ -26,20 +29,11 @@ class Modal{
             "</div>";
     }
 
-    setTitle(tag, text, dismissable = true){
-        const title = this.createElement(tag, text);
+    setTitle(tag, text){
+        const title = this._createElement(tag, text);
         title.id = "modal-title";
         title.classList.add("modal-title");
-        this.header.insertBefore(title, this.header.firstChild);
-        if(dismissable){
-            const btn = document.createElement("button");
-            btn.classList.add("close");
-            btn.setAttribute("data-dismiss", "modal");
-            btn.setAttribute("arial-label", "Close");
-            btn.innerHTML = "<span aria-hidden=\"true\">&times;</span>";
-            this.header.appendChild(btn)
-        }
-
+        this._header.insertBefore(title, this._header.firstChild);
 
         return this;
     }
@@ -48,14 +42,14 @@ class Modal{
         const el = document.createElement('div');
         el.innerHTML = html;
         if (type === "header" || type === "footer" || type === "body"){
-            this[type].appendChild(el);
+            this["_"+type].appendChild(el);
         }
 
         return this;
     }
 
 
-    createElement(type, innerHTML){
+    _createElement(type, innerHTML){
         const el = document.createElement(type);
         el.innerHTML = innerHTML;
 
@@ -63,12 +57,49 @@ class Modal{
     }
 
     show(){
+        if(this._dismissable){
+            const btn = document.createElement("button");
+            btn.classList.add("close");
+            btn.setAttribute("data-dismiss", "modal");
+            btn.setAttribute("arial-label", "Close");
+            btn.innerHTML = "<span aria-hidden=\"true\">&times;</span>";
+            this._header.appendChild(btn)
+        }
+
         const div = document.createElement("div");
-        div.innerHTML = this.skeleton.innerHTML;
+        div.innerHTML = this._skeleton.innerHTML;
         document.body.appendChild(div);
-        $(document.getElementById("modal")).modal("show");
+
+        this._modal = document.getElementById(this._modal_id);
+
+        $(this._modal).modal("show");
+
+        this._onShow = true;
+
+        return this
 
     }
 
+
+    onClose(callback){
+        if(this._onShow && typeof callback === 'function'){
+            $(this._modal).on('hidden.bs.modal', function (e) {
+                callback(e)
+            });
+        }
+
+        return this;
+    }
+
+    on(event, callback){
+        this._modal.addEventListener(event, callback())
+    }
+
 }
+
+
+
+
+
+
 

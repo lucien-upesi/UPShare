@@ -27,6 +27,18 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
+//CORS middleware
+// const allowCrossDomain = (req, res, next)=> {
+//     res.header('Access-Control-Allow-Origin', 'localhost');
+//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+//     res.header('Access-Control-Allow-Headers', 'Content-Type');
+//
+//     console.log(res.header);
+//
+//     next();
+// };
+
 app.use(helmet());
 
 app.use(logger('dev'));
@@ -35,6 +47,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(csrf({ cookie: true }));
+// app.use(allowCrossDomain);
 
 app.use('/', index);
 app.use('/users', users);

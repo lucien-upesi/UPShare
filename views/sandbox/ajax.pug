@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+    form#form(method="post", action=path+"/post")
+        input(type="checkbox", name="checkbox")
+        input(type="text", name="text")
+        select(name="select")
+            option(value="1") 1
+            option(value="2") 2
+        input#token(type="hidden", value=csrfToken, name="_csrf")
+        textarea(name="textarea")
+        input(type="file", name="file", multiple)
+
+        button#btn(type="submit") OK
+    script(src=path+"/javascripts/sandbox/sandboxForm.js")

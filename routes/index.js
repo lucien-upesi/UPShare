@@ -31,6 +31,20 @@ router.get('/sandbox/:view', (req, res, next)=>{
     res.render('sandbox/'+req.params.view, { title: req.params.view, csrfToken: req.csrfToken()});
 });
 
+router.get('/get', function (req, res, next) {
+
+    res.send("got it");
+
+});
+
+router.post('/post', function (req, res, next) {
+
+    console.log(req.body);
+
+    res.send("posted");
+
+});
+
 // router.get('/modal', (req, res, next)=>{
 //
 // });
