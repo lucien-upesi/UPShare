@@ -13,10 +13,16 @@ mixin table-row(...rows)
                 td(style="vertical-align:middle") #{row}
 
             td(style="width:15%")
-                a.btn.btn-info.btn-sm
-                    i.material-icons.align-middle mode_edit
-                a.btn.btn-danger.btn-sm(style="margin-left: 0.5rem")
-                    i.material-icons.align-middle delete_forever
+                div.dropdown
+                    a.btn.btn-info.btn-sm.dropdown-toggle#btnDrop(role="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")
+                        i.material-icons.align-middle settings
+                    div.dropdown-menu(aria-labelledby="btnDrop")
+                        a.dropdown-item(href="#")
+                            i.material-icons.align-middle.mr-2 mode_edit
+                            | Edit
+                        a.dropdown-item(href="#")
+                            i.material-icons.align-middle.mr-2 delete_forever
+                            | Remove
 
 mixin table-icon(icon, style)
     i.material-icons(style=style)= icon
@@ -26,29 +32,59 @@ block content
         div.row
             div.col-12
                 block subnavbar
-        div.row(style="margin-bottom:0.5rem; margin-top:0.3rem")
+        div.row.mb-1.mt-1
             div.aside.nav#sidebar.col-2
                 ul.list-unstyled
                     include aside
-            div.main.col-10(style="margin-top:2.5rem")
+            div.main.col-10.mt-5
                 block main
-                    div.table-responsive(style="border:1px solid #e5e5e5; background-color:#FFFFFF")
-                        table.table.table-hover.w-100
-                            thead.thead-inverse.font-weight-normal
-                                tr
-                                    +table-header("")
-                                    +table-header("FileName")
-                                    +table-header("Modified")
-                                    +table-header("")
-                            tbody
-                                +table-row("Folder1", "10.04.2017")
-                                    +table-icon("folder", "vertical-align:middle")
-                                +table-row("FolderShared1", "10.04.2017")
-                                    +table-icon("folder_shared", "vertical-align:middle")
-                                +table-row("Folder2", "10.04.2017")
-                                    +table-icon("folder", "vertical-align:middle")
-                                +table-row("File1", "10.04.2017")
-                                    +table-icon("insert_drive_file", "vertical-align:middle")
+                    if(title === 'Files')
+                        include layout_table
+                        +table-header("")
+                        +table-header("FileName")
+                        +table-header("Modified")
+                        +table-header("")
+
+                        tbody
+                            +table-row("Folder1", "10.04.2017")
+                                +table-icon("folder", "vertical-align:middle")
+                            +table-row("FolderShared1", "10.04.2017")
+                                +table-icon("folder_shared", "vertical-align:middle")
+                            +table-row("Folder2", "10.04.2017")
+                                +table-icon("folder", "vertical-align:middle")
+                            +table-row("File1", "10.04.2017")
+                                +table-icon("insert_drive_file", "vertical-align:middle")
+
+                    else if(title === 'Groups')
+                        include layout_table
+                        +table-header("")
+                        +table-header("GroupName")
+                        +table-header("Modified")
+                        +table-header("")
+
+                        tbody
+                            +table-row("OwnedGroup1", "10.04.2017")
+                                +table-icon("contacts", "vertical-align:middle")
+                            +table-row("GroupShared1", "10.04.2017")
+                                +table-icon("group_work", "vertical-align:middle")
+                            +table-row("OwnedGroup2", "10.04.2017")
+                                +table-icon("contacts", "vertical-align:middle")
+                            +table-row("GroupShared2", "10.04.2017")
+                                +table-icon("group_work", "vertical-align:middle")
+                    else if(title === 'Help')
+                        div#accordion
+                            div.card
+                                div.card-header#headOne
+                                    h5.mb-0
+                                        button.btn.btn-link(data-toggle="collapse", data-target="#collapseOne", aria-expanded="true", aria-controls="collapseOne") Carte#1
+                                div.collapse.show#collapseOne(aria-labelledby="headingOne", data-parent="#accordion")
+                                    div.card-body Loremipsum loremipsum
+
+                                div.card-header#headTwo
+                                    h5.mb-0
+                                        button.btn.btn-link(data-toggle="collapse", data-target="#collapseTwo", aria-expanded="true", aria-controls="collapseTwo") Carte#2
+                                div.collapse.show#collapseTwo(aria-labelledby="headingTwo", data-parent="#accordion")
+                                    div.card-body Loremipsum loremipsum
 
 
     script(src="javascripts/main_layout.js")

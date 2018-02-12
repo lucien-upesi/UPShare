@@ -27,4 +27,8 @@ router.get('/groups', (req, res, next)=> {
     res.render('main_view/layout_main', { title: 'Groups', csrfToken: req.csrfToken()});
 });
 
+router.get('/help', (req, res, next)=> {
+    res.render('main_view/layout_main', { title: 'Help', csrfToken: req.csrfToken()});
+});
+
 module.exports = router;
