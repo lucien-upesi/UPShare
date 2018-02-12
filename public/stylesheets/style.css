@@ -34,3 +34,8 @@ body {
 #sidebar ul .nav-item:hover {
     background-color: #E5E5E5;
 }
+
+/*table padding*/
+.table th, .table td {
+  padding: 0.4rem;
+}

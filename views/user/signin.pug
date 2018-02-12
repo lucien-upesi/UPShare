@@ -3,17 +3,24 @@ extends ../layout
 block content
     div.container-fluid.h-100.fill.mt-5
         div.row.h-100.justify-content-center.align-items-center
-            div.col.col-md-6.align-middle.shadow-1
-                h1.text-center Sign in
+            div.col.col-md-6.align-middle.shadow-1(style="margin-bottom:3rem")
+                img.img-responsive.mx-auto.d-block(src="images/upshare.png")(alt="upez")(style="max-width:20%; margin-top:1rem")
                 form(action="/users/login", method="post")
                     input(type="hidden", name="_csrf", value=csrfToken)
                     div.form-group
                         label Login
-                        input.form-control(type="email", name="email")
+                        div.input-group.mb-3
+                            div.input-group-prepend
+                                span.input-group-text
+                                    i.material-icons email
+                            input.form-control(type="email", name="email")
                     div.form-group
                         label Password
-                        input.form-control(type="password", name="password")
+                        div.input-group.mb-3
+                            div.input-group-prepend
+                                span.input-group-text
+                                    i.material-icons lock
+                            input.form-control(type="password", name="password")
 
                     div.d-flex.justify-content-center
-                        button.btn.btn-primary.w-50.mb-3(type="submit") Se connecter
-
+                        button.btn.btn-primary.w-auto.mb-3(type="submit") SignIn

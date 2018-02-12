@@ -4,7 +4,7 @@ const countries = require('../public/country.json');
 
 /* GET home page. */
 router.get('/', (req, res, next)=> {
-  res.render('index', { title: 'UPShare' });
+  res.render('index', { title: 'UpShare' });
 });
 
 router.get('/signin', (req, res, next)=> {
@@ -48,5 +48,9 @@ router.post('/post', function (req, res, next) {
 // router.get('/modal', (req, res, next)=>{
 //
 // });
+
+router.get('/help', (req, res, next)=> {
+    res.render('main_view/layout_main', { title: 'Help', csrfToken: req.csrfToken()});
+});
 
 module.exports = router;
