@@ -1,0 +1,19 @@
+div#accordion
+    div.card.mb-5
+        div.card-header#headOne
+            h5.mb-0
+                button.btn.btn-link(data-toggle="collapse", data-target="#collapseOne", aria-expanded="true", aria-controls="collapseOne") Carte#1
+        div.collapse.show#collapseOne(aria-labelledby="headingOne", data-parent="#accordion")
+            div.card-body Loremipsum loremipsum
+
+        div.card-header#headTwo
+            h5.mb-0
+                button.btn.btn-link(data-toggle="collapse", data-target="#collapseTwo", aria-expanded="true", aria-controls="collapseTwo") Carte#2
+        div.collapse.show#collapseTwo(aria-labelledby="headingTwo", data-parent="#accordion")
+            div.card-body Loremipsum loremipsum
+
+        div.card-header#headThree
+            h5.mb-0
+                button.btn.btn-link(data-toggle="collapse", data-target="#collapseThree", aria-expanded="true", aria-controls="collapseThree") Carte#3
+        div.collapse.show#collapseThree(aria-labelledby="headingThree", data-parent="#accordion")
+            div.card-body Loremipsum loremipsum

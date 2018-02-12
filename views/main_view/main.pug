@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+    div.container-fluid.fill.h-100
+        div.row
+            div.col-12
+                block subnavbar
+        div.row.mb-1.mt-1
+            div.aside.nav#sidebar.col-2
+                ul.list-unstyled
+                    include aside
+            div.main.col-10.mt-5
+                block main
+                    if(title === 'Files' || title === 'Groups')
+                        include table
+                    else if(title === 'Help')
+                        include help
+
+
+    script(src="javascripts/main_layout.js")

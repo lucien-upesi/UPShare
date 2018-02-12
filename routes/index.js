@@ -20,11 +20,15 @@ router.get('/account', (req, res, next)=> {
 });
 
 router.get('/files', (req, res, next)=> {
-    res.render('main_view/layout_main', { title: 'Files', csrfToken: req.csrfToken()});
+    res.render('main_view/main', { title: 'Files', csrfToken: req.csrfToken()});
 });
 
 router.get('/groups', (req, res, next)=> {
-    res.render('main_view/layout_main', { title: 'Groups', csrfToken: req.csrfToken()});
+    res.render('main_view/main', { title: 'Groups', csrfToken: req.csrfToken()});
+});
+
+router.get('/help', (req, res, next)=> {
+    res.render('main_view/main', { title: 'Help', csrfToken: req.csrfToken()});
 });
 
 router.get('/sandbox/:view', (req, res, next)=>{
@@ -48,9 +52,5 @@ router.post('/post', function (req, res, next) {
 // router.get('/modal', (req, res, next)=>{
 //
 // });
-
-router.get('/help', (req, res, next)=> {
-    res.render('main_view/layout_main', { title: 'Help', csrfToken: req.csrfToken()});
-});
 
 module.exports = router;
