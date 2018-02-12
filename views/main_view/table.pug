@@ -1,6 +1,5 @@
 mixin table-header(header)
     th(scope="col") #{header}
-
 mixin table-row(...rows)
     tr
         th(scope="row")
@@ -12,7 +11,7 @@ mixin table-row(...rows)
 
             td(style="width:15%")
                 div.dropdown
-                    a.btn.btn-info.btn-sm.dropdown-toggle#btnDrop(role="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")
+                    a.btn.btn-warning.btn-sm.dropdown-toggle#btnDrop(role="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")
                         i.material-icons.align-middle settings
                     div.dropdown-menu(aria-labelledby="btnDrop")
                         a.dropdown-item(href="#")
@@ -21,9 +20,9 @@ mixin table-row(...rows)
                         a.dropdown-item(href="#")
                             i.material-icons.align-middle.mr-2 delete_forever
                             | Remove
-
 mixin table-icon(icon, style)
     i.material-icons(style=style)= icon
+
 div.main.col-10.mt-5
     div.table-responsive.mb-5(style="border:1px solid #e5e5e5; background-color:#FFFFFF")
         table.table.table-hover.w-100
