@@ -1,19 +1,15 @@
+mixin accordion-item(id_head, datatarg, icon, text)
+    div.card-header(id=id_head)
+        h5.mb-0
+            button.btn.btn-link.text-dark.font-weight-bold(data-toggle="collapse", data-target="#"+datatarg, aria-expanded="true", aria-controls=datatarg)
+                i.material-icons.align-middle.mr-2 #{icon}
+                | #{text}
+    div.collapse.show(id=datatarg)(aria-labelledby=id_head, data-parent="#accordion")
+        div.card-body Loremipsum loremipsum
+
 div.col-8.mx-auto.mt-5#accordion
     div.card.mr-5.mb-5
-        div.card-header#headOne
-            h5.mb-0
-                button.btn.btn-link(data-toggle="collapse", data-target="#collapseOne", aria-expanded="true", aria-controls="collapseOne") #1 Getting Started
-        div.collapse.show#collapseOne(aria-labelledby="headingOne", data-parent="#accordion")
-            div.card-body Loremipsum loremipsum
-
-        div.card-header#headTwo
-            h5.mb-0
-                button.btn.btn-link(data-toggle="collapse", data-target="#collapseTwo", aria-expanded="true", aria-controls="collapseTwo") Carte#2
-        div.collapse.show#collapseTwo(aria-labelledby="headingTwo", data-parent="#accordion")
-            div.card-body Loremipsum loremipsum
-
-        div.card-header#headThree
-            h5.mb-0
-                button.btn.btn-link(data-toggle="collapse", data-target="#collapseThree", aria-expanded="true", aria-controls="collapseThree") Carte#3
-        div.collapse.show#collapseThree(aria-labelledby="headingThree", data-parent="#accordion")
-            div.card-body Loremipsum loremipsum
+        +accordion-item("headOne", "collapseOne", "info", "Getting Started")
+        +accordion-item("headTwo", "collapseTwo", "help", "Help Noob")
+        +accordion-item("headThree", "collapseThree", "help", "Help Noob #2")
+        +accordion-item("headFour", "collapseFour", "info", "Getting Rekt")

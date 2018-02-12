@@ -8,14 +8,14 @@ block content
                 form(action="/users/login", method="post")
                     input(type="hidden", name="_csrf", value=csrfToken)
                     div.form-group
-                        label Login
+                        label.font-weight-bold Login
                         div.input-group.mb-3
                             div.input-group-prepend
                                 span.input-group-text
                                     i.material-icons email
                             input.form-control(type="email", name="email")
                     div.form-group
-                        label Password
+                        label.font-weight-bold Password
                         div.input-group.mb-3
                             div.input-group-prepend
                                 span.input-group-text
@@ -23,4 +23,4 @@ block content
                             input.form-control(type="password", name="password")
 
                     div.d-flex.justify-content-center
-                        button.btn.btn-primary.w-auto.mb-3(type="submit") SignIn
+                        button.btn.btn-primary.w-auto.mb-3.font-weight-bold(type="submit") SignIn
