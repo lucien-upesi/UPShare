@@ -11,13 +11,13 @@ mixin table-row(...rows)
 
             td(style="width:15%")
                 div.dropdown
-                    a.btn.btn-warning.btn-sm.dropdown-toggle#btnDrop(role="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")
+                    a.btn.btn-warning.btn-sm.dropdown-toggle.btnDrop(role="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")
                         i.material-icons.align-middle settings
                     div.dropdown-menu(aria-labelledby="btnDrop")
-                        a.dropdown-item(href="#")
+                        a.dropdown-item.btnEdit(href=Math.random(), file-id=Math.random())
                             i.material-icons.align-middle.mr-2 mode_edit
                             | Edit
-                        a.dropdown-item(href="#")
+                        a.dropdown-item.btnRemove(href="#")
                             i.material-icons.align-middle.mr-2 delete_forever
                             | Remove
 mixin table-icon(icon, style)
@@ -59,3 +59,5 @@ div.main.col-10.mt-5
                             +table-icon("contacts", "vertical-align:middle")
                         +table-row("GroupShared2", "10.04.2017")
                             +table-icon("group_work", "vertical-align:middle")
+
+    script(src=path+'/javascripts/main/table.js', type='text/javascript')
