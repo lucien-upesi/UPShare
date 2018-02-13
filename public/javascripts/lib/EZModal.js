@@ -74,6 +74,10 @@ class EZModal{
 
         $(this._modal).modal("show");
 
+        $(this._modal).on('hidden.bs.modal', function (e) {
+            div.outerHTML = "";
+        });
+
         this._onShow = true;
 
         return this
@@ -96,7 +100,6 @@ class EZModal{
     }
 
 }
-
 
 
 

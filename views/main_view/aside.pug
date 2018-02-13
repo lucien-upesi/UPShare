@@ -19,8 +19,8 @@ mixin nav-form(action, form_id, btn_id, type, text)
             button.btn.btn-primary.btn-sm.m-1(type="submit", id=btn_id)=text
 
 block aside
-    div.aside.nav#sidebar.col-2
-        ul.list-unstyled
+    div.aside.nav#sidebar.col-10.col-md-2.bg-white.shadow-1(style="z-index:1000")
+        ul.list-unstyled.w-100
             if(title === 'Files')
                 li
                     +nav-form("/uploads", "upload_form", "upload_btn", "file", "Upload")
@@ -36,6 +36,10 @@ block aside
                 +nav-item-sidebar("/mygroup", "group", "My Groups")
                 hr
                 +nav-item-sidebar("/sharedgroup", "group_add", "Shared groups")
+
+    div#btn_control_div.control_btn.d-flex.align-items-center(style="width:0")
+        button.shadow-2.btn.btn-primary.rounded-circle#sidebar_btn(style="z-index:1000;margin-left:-25px")
+            i.material-icons#icon_control_btn keyboard_arrow_left
 
 
 
