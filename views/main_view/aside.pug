@@ -19,7 +19,7 @@ mixin nav-form(action, form_id, btn_id, type, text)
             button.btn.btn-primary.btn-sm.m-1(type="submit", id=btn_id)=text
 
 block aside
-    div.aside.nav#sidebar.col-10.col-md-2.bg-white.shadow-1(style="z-index:1000")
+    div.aside.nav#sidebar.col-10.col-md-2.bg-transparent(style="z-index:1000")
         ul.list-unstyled.w-100
             if(title === 'Files')
                 li
