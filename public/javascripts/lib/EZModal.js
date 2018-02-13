@@ -39,9 +39,11 @@ class EZModal{
     }
 
     setElement(type, el){
-        if(typeof el === 'object'){
-            const html = document.createElement('div');
+        if(typeof el === 'string'){
+            let html = document.createElement('div');
             html.innerHTML = el;
+
+            [el, html] = [html, el];
         }
 
         if (type === "header" || type === "footer" || type === "body"){
