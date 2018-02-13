@@ -3,36 +3,36 @@ extends ../layout
 block content
     div.container-fluid.h-100.fill.mt-5
         div.row.justify-content-center.align-items-center.h-75
-            div.col.col-md-6.align-middle.shadow-1(style="margin-bottom:3rem")
-                img.img-responsive.mx-auto.d-block(src="images/upshare.png")(alt="upez")(style="max-width:20%; margin-top:1rem")
+            div.col.col-md-6.align-middle.mb-5
+                img.img-responsive.mx-auto.mt-1.d-block(src="images/upshare.png")(alt="upez")(style="max-width:20%")
                 form(action="/users/register", method="post")
                     div.form-group
-                        label First name
+                        label.font-weight-bold First name
                         input.form-control(type="text", name="register_first_name", required)
 
 
                     div.form-group
-                        label Last name
+                        label.font-weight-bold Last name
                         input.form-control(type="text", name="register_last_name", required)
 
                     div.form-group
-                        label Birthday
+                        label.font-weight-bold Birthday
                         input.form-control(type="date", name="register_birthday", required)
 
                     div.form-group
-                        label Country
+                        label.font-weight-bold Country
                         select.form-control(name="register_country", required)
                             for country in countries
                                 option(value=country.Code) #{country.Name}
 
-                    label E-mail
+                    label.font-weight-bold E-mail
                     div.input-group.mb-3
                         div.input-group-prepend
                             span.input-group-text
                                 i.material-icons email
                         input.form-control(type="email", name="register_email", required)
 
-                    label Password
+                    label.font-weight-bold Password
                     div.input-group.mb-3
                         div.input-group-prepend
                             span.input-group-text
@@ -42,4 +42,4 @@ block content
                     input(type="hidden", value=csrfToken, name="_csrf")
 
                     div.d-flex.justify-content-center
-                        button.btn.btn-primary.w-50.mb-3(type="submit") Register
+                        button.btn.btn-primary.w-50.mb-3.font-weight-bold(type="submit") Register
