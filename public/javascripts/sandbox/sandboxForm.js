@@ -1,3 +1,3 @@
-const ez = new EZForm("form", "btn").then(res=>{
+const ez = new EZForm("form", "btnEdit").then(res=>{
     console.log(JSON.parse(res));
 });
