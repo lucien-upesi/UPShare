@@ -1,7 +1,6 @@
 <template lang="pug">
   v-app
-    v-navigation-drawer(app)
-    v-toolbar(app)
+    Navigation(app)
     v-content
       v-container(fluid, fill-height, :class="{'pa-0': $vuetify.breakpoint.smAndDown}")
         router-view
@@ -9,17 +8,17 @@
 </template>
 
 <script>
+import Navigation from './components/Navigation'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Navigation
+  }
 }
 </script>
 
 <style>
 body{
   font-family: 'Roboto', sans-serif;
-}
-#app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 </style>

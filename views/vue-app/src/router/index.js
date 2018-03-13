@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Home from '@/components/Home'
 
-import HelloWorld from '@/components/HelloWorld'
 import Register from '@/components/user/Register'
 import Login from '@/components/user/Login'
 import ResetPwd from '@/components/user/ResetPwd'
@@ -12,9 +12,9 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      path: '/home',
+      name: 'Home',
+      component: Home
     },
     {
       path: '/register',
