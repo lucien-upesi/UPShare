@@ -1,6 +1,6 @@
 <template lang="pug">
   v-layout
-    v-flex(xs12, md8)
+    v-flex(xs12)
       div
         v-dialog(v-model='dialog', max-width='500px')
           v-btn.mb-2(color='primary', dark='', slot='activator') New File
@@ -10,10 +10,8 @@
             v-card-text
               v-container(grid-list-md)
                 v-layout(wrap)
-                  v-flex(xs12, sm6, md4)
-                    v-text-field(label='File/folder name', v-model='editedItem.name')
-                  v-flex(xs12='', sm6='', md4='')
-                    v-text-field(label='Modified', v-model='editedItem.modified')
+                  v-flex(xs12)
+                    v-text-field(label='Name', v-model='editedItem.name')
             v-card-actions
               v-spacer
               v-btn(color='blue darken-1', flat='', @click.native='close') Cancel
@@ -21,14 +19,15 @@
         v-data-table.elevation-1(:headers='headers', :items='items', hide-actions='')
           template(slot='items', slot-scope='props')
             td {{ props.item.name }}
-            td.text-xs-right {{ props.item.modified }}
+            td {{ props.item.modified }}
             td.justify-center.layout.px-0
               v-btn.mx-0(icon='', @click='editItem(props.item)')
                 v-icon(color='teal') edit
               v-btn.mx-0(icon='', @click='deleteItem(props.item)')
                 v-icon(color='pink') delete
           template(slot='no-data')
-            v-btn(color='primary', @click='initialize') Reset
+            v-alert(:value="true" color="error" icon="warning") Sorry, nothing to display here :(
+            //v-btn(color='primary', @click='initialize') Reset
 
 </template>
 
@@ -41,24 +40,19 @@ export default {
       {
         text: 'Files/Folders',
         align: 'left',
-        sortable: false,
+        sortable: true,
         value: 'name'
       },
-      { text: 'Name', value: 'filename' },
       { text: 'Modified', value: 'modified' },
       { text: 'Actions', value: 'name', sortable: false }
     ],
     items: [],
     editedIndex: -1,
     editedItem: {
-      name: '',
-      filename: 'Unnamed file',
-      modified: 0
+      name: ''
     },
     defaultItem: {
-      name: '',
-      filename: '',
-      modified: 0
+      name: ''
 
     }
   }),
@@ -84,35 +78,35 @@ export default {
       this.items = [
         {
           name: 'Frozen Yogurt',
-          modified: 159
+          modified: new Date(-1).toLocaleDateString()
         },
         {
           name: 'Ice cream sandwich',
-          modified: 237
+          modified: new Date().toLocaleDateString()
         },
         {
           name: 'Eclair',
-          modified: 262
+          modified: new Date().toLocaleDateString()
         },
         {
           name: 'Cupcake',
-          modified: 305
+          modified: new Date(1995).toLocaleDateString()
         },
         {
           name: 'Gingerbread',
-          modified: 356
+          modified: new Date().toLocaleDateString()
         },
         {
           name: 'Jelly bean',
-          modified: 375
+          modified: new Date().toLocaleDateString()
         },
         {
           name: 'Lollipop',
-          modified: 392
+          modified: new Date('01/02/1963').toLocaleDateString()
         },
         {
           name: 'Honeycomb',
-          modified: 408
+          modified: new Date('09/04/2020').toLocaleDateString()
         }
       ]
     },

@@ -1,7 +1,0 @@
-{
-    "extends": "google",
-    "eslint.enable": true,
-    "eslint.run": "onType",
-    "eslint.options": { "configFile": "/home/mickael/UPShare/views/vue-app.eslintrc.json" },
-    "eslint.provideLintTask": true
-}
