@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 
 import Register from '@/components/user/Register'
+import Account from '@/components/user/Account'
 import Login from '@/components/user/Login'
 import ResetPwd from '@/components/user/ResetPwd'
 import Files from '@/components/main/Files'
@@ -36,6 +37,11 @@ export default new Router({
       path: '/files',
       name: 'Files',
       component: Files
+    },
+    {
+      path: '/account',
+      name: 'Account',
+      component: Account
     }
   ]
 })
