@@ -1,6 +1,5 @@
 <template lang="pug">
-v-container(fluid)
-<!-- Navigation Drawer Section -->
+div
   v-navigation-drawer(class='grey darken-3', width='200', dark, fixed='', v-model='drawer', app='')
     v-list.pa-1
       v-list-tile(avatar='')
@@ -17,7 +16,6 @@ v-container(fluid)
           v-list-tile-title {{ item.title }}
       v-divider
     v-spacer
-<!-- Navigation Toolbar Section -->
   v-toolbar(color='grey darken-3', dark='', fixed='', app='')
     v-toolbar-side-icon(@click.stop='drawer = !drawer')
     v-toolbar-title UpShare
