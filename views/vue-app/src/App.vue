@@ -1,13 +1,18 @@
-<template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
-  </div>
+<template lang="pug">
+  v-app
+   Navigation(app)
+   v-content
+       router-view
+   v-footer(app)
 </template>
 
 <script>
+import Navigation from './components/Navigation'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Navigation
+  }
 }
 </script>
 
@@ -15,7 +20,8 @@ export default {
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  margin-top: 60px;
+}
+body{
+  font-family: 'Roboto', sans-serif
 }
 </style>
