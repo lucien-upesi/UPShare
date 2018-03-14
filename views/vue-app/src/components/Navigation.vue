@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  v-navigation-drawer(class='grey darken-3', width='200', dark, fixed='', v-model='drawer', app='')
+  v-navigation-drawer(class='grey darken-3', width='200', dark, fixed, v-model='drawer', app)
     v-list.pa-1
       v-list-tile(avatar='')
         v-list-tile-avatar
@@ -15,27 +15,19 @@ div
         v-list-tile-content
           v-list-tile-title {{ item.title }}
       v-divider
+      v-list-tile(v-for='setting in settings', :key='setting.title', :to= 'setting.to')
+        v-list-tile-action
+          v-icon {{ setting.icon }}
+        v-list-tile-content
+          v-list-tile-title {{ setting.title }}
     v-spacer
-  v-toolbar(color='grey darken-3', dark='', fixed='', app='')
+  v-toolbar(:extended='extend', color='grey darken-3', dark, fixed, app)
     v-toolbar-side-icon(@click.stop='drawer = !drawer')
     v-toolbar-title UpShare
       v-icon swap_vert
-    v-tooltip(bottom) Home
-      v-btn(icon, to='home', flat, slot='activator')
-        v-icon home
-    v-tooltip(bottom) Files
-      v-btn(icon, to='files', flat, slot='activator')
-        v-icon insert_drive_file
-    v-tooltip(bottom) Groups
-      v-btn(icon, to='groups', flat, slot='activator')
-        v-icon people
     v-spacer
-    v-tooltip(bottom) Help
-      v-btn(icon, to='help', flat, slot='activator')
-        v-icon help
-    v-tooltip(bottom) Settings
-      v-btn(icon, to='account', flat, slot='activator')
-        v-icon settings
+    v-spacer
+    v-text-field(:slot='extension', prepend-icon='search', label='search', flat)
 </template>
 
 <script>
@@ -48,10 +40,23 @@ export default {
       items: [
         {title: 'Home', icon: 'dashboard', to: 'home'},
         {title: 'Files', icon: 'insert_drive_file', to: 'files'},
-        {title: 'Groups', icon: 'people', to: 'groups'},
+        {title: 'Groups', icon: 'people', to: 'groups'}
+      ],
+      settings: [
+        {title: 'Settings', icon: 'settings', to: 'settings'},
         {title: 'Help', icon: 'help', to: 'help'},
         {title: 'About', icon: 'question_answer', to: 'about'}
       ]
+    }
+  },
+  computed: {
+    extend: function () {
+      return this.$vuetify.breakpoint.smAndDown
+    },
+    extension: function () {
+      if (this.$vuetify.breakpoint.smAndDown) {
+        return 'extension'
+      } return 'default'
     }
   }
 }

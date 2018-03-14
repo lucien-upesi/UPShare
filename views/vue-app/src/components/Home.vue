@@ -1,15 +1,16 @@
 <template lang="pug">
-  v-layout(align-center, justify-center)
-    v-flex(xs12='', sm6='')
+  v-layout
+    v-flex(xs12)
       v-card
-        img(src="../assets/upshare.png", height="200px")
+        div.layout.justify-center
+          img(src="../assets/upshare.png")
         v-card-title(primary-title='')
           div
-            h3.headline.mb-0 Kangaroo Valley Safari
+            h3.headline.mb-0 UpShare, uploads everythings !
             div
-              | Located two hours south of Sydney in the
+              | Welcome in UpShare,
               br
-              | Southern Highlands of New South Wales, ...
+              | Please login or register
         v-card-actions
           v-btn(to='Login', flat, color='primary') Login
           v-btn(to='Register', flat, color='primary') Register

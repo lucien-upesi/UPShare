@@ -7,6 +7,7 @@ import Account from '@/components/user/Account'
 import Login from '@/components/user/Login'
 import ResetPwd from '@/components/user/ResetPwd'
 import Files from '@/components/main/Files'
+import Help from '@/components/main/Help'
 
 Vue.use(Router)
 
@@ -42,6 +43,11 @@ export default new Router({
       path: '/account',
       name: 'Account',
       component: Account
+    },
+    {
+      path: '/help',
+      name: 'Help',
+      component: Help
     }
   ]
 })
