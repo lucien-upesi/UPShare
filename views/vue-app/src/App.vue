@@ -3,7 +3,7 @@
     Navigation(app)
     v-content
       v-container(fluid, fill-height, :class="{'pa-0': $vuetify.breakpoint.smAndDown}")
-        router-view
+        router-view(:key="$route.name")
     v-footer(app)
 </template>
 

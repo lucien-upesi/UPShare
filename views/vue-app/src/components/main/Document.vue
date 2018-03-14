@@ -3,7 +3,7 @@
     v-flex(xs12)
       div
         v-dialog(v-model='dialog', max-width='500px')
-          v-btn.mb-2(color='primary', dark='', slot='activator') New File
+          v-btn.mb-2(color='primary', dark='', slot='activator') Add {{ addText }}
           v-card
             v-card-title
               span.headline {{ formTitle }}
@@ -20,7 +20,7 @@
           template(slot='items', slot-scope='props')
             td {{ props.item.name }}
             td {{ props.item.modified }}
-            td.justify-center.layout.px-0
+            td.layout.px-0.justify-center
               v-btn.mx-0(icon='', @click='editItem(props.item)')
                 v-icon(color='teal') edit
               v-btn.mx-0(icon='', @click='deleteItem(props.item)')
@@ -33,18 +33,19 @@
 
 <script>
 export default {
-  name: 'Files',
+  name: 'Document',
   data: () => ({
     dialog: false,
+    addText: '',
+    currentRoute: window.location.pathname,
     headers: [
       {
-        text: 'Files/Folders',
-        align: 'left',
+        text: '',
         sortable: true,
         value: 'name'
       },
       { text: 'Modified', value: 'modified' },
-      { text: 'Actions', value: 'name', sortable: false }
+      { text: 'Actions', value: 'name', sortable: false, align: 'center' }
     ],
     items: [],
     editedIndex: -1,
@@ -70,6 +71,8 @@ export default {
   },
 
   created () {
+    this.headers[0].text = this.$route.name === 'Groups' ? 'Groups' : 'Files/Folders'
+    this.addText = this.$route.name === 'Groups' ? 'Group' : 'Files/Folders'
     this.initialize()
   },
 

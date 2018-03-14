@@ -20,6 +20,7 @@ export default {
   name: 'ResetPwd',
   data: function () {
     return {
+      valid: true,
       pwd: '',
       repwd: '',
       pwdRules: [
