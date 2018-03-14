@@ -1,9 +1,9 @@
 <template lang="pug">
-    v-layout(align-center='', justify-center='')
-      v-flex(xs12, md8)
+    v-layout
+      v-flex(xs12)
         v-card.elevation-12
           v-toolbar(color='primary')
-            v-toolbar-title Register
+            v-toolbar-title {{ titleSubmitText }}
             v-spacer
           v-card-text
             v-form#form(v-model="valid" ref="form" lazy-validation)
@@ -19,7 +19,7 @@
 
               v-card-actions
                 v-spacer
-                v-btn(flat, :disabled='!valid' v-on:click='submit') Register
+                v-btn(flat, :disabled='!valid' v-on:click='submit') {{ submitText }}
 </template>
 
 <script>
@@ -27,6 +27,8 @@ import states from '../../../../../public/country'
 export default {
   name: 'Register',
   data: () => ({
+    submitText: '',
+    titleSubmitText: '',
     valid: true,
     menu: false,
     firstName: '',
@@ -65,6 +67,15 @@ export default {
         // Native form submission is not yet supported
 
       }
+    }
+  },
+  created () {
+    if (this.$route.name === 'Register') {
+      this.submitText = 'Register'
+      this.titleSubmitText = 'Please Register'
+    } else if (this.$route.name === 'Account') {
+      this.submitText = 'Update'
+      this.titleSubmitText = 'Account Settings'
     }
   }
 }
