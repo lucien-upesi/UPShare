@@ -1,7 +1,7 @@
 <template lang="pug">
   v-layout
     v-flex(xs12)
-      v-expansion-panel(dark)
+      v-expansion-panel.elevation-12(dark)
         v-expansion-panel-content(v-for='item in items', :key='item.title')
           div(slot='header')
             v-icon.mr-3(color='primary') {{ item.icon }}

@@ -1,6 +1,6 @@
 <template lang="pug">
-    v-layout(align-center='', justify-center='')
-      v-flex(xs12, md8)
+    v-layout
+      v-flex(xs12)
         v-card.elevation-12
           v-toolbar(color='primary')
             v-toolbar-title {{ titleSubmitText }}

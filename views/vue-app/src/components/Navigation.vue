@@ -43,7 +43,7 @@ export default {
         {title: 'Groups', icon: 'people', to: 'groups'}
       ],
       settings: [
-        {title: 'Settings', icon: 'settings', to: 'settings'},
+        {title: 'Settings', icon: 'settings', to: 'account'},
         {title: 'Help', icon: 'help', to: 'help'},
         {title: 'About', icon: 'question_answer', to: 'about'}
       ]
