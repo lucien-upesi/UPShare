@@ -1,7 +1,7 @@
 <template lang="pug">
-  v-layout
+  v-layout(align-center justify-center, fill-height)
     v-flex(xs12)
-      v-card
+      v-card(:class="{'mt-3': $vuetify.breakpoint.smAndDown}")
         div.layout.justify-center
           img(src="../assets/upshare.png")
         v-card-title(primary-title='')
