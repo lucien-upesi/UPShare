@@ -8,6 +8,7 @@ import Login from '@/components/user/Login'
 import ResetPwd from '@/components/user/ResetPwd'
 import Document from '@/components/main/Document'
 import Help from '@/components/main/Help'
+import About from '@/components/main/About'
 Vue.use(Router)
 
 export default new Router({
@@ -53,6 +54,11 @@ export default new Router({
       path: '/help',
       name: 'Help',
       component: Help
+    },
+    {
+      path: '/about',
+      name: 'About',
+      component: About
     }
   ]
 })

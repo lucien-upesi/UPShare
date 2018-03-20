@@ -42,6 +42,7 @@ export default {
         {title: 'Files', icon: 'insert_drive_file', to: 'files'},
         {title: 'Groups', icon: 'people', to: 'groups'}
       ],
+      /* Sub Drawer menu with settings */
       settings: [
         {title: 'Settings', icon: 'settings', to: 'account'},
         {title: 'Help', icon: 'help', to: 'help'},
