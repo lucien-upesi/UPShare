@@ -27,7 +27,8 @@ div
       v-icon swap_vert
     v-spacer
     v-spacer
-    v-text-field(:slot='extension', prepend-icon='search', label='search', flat)
+    div(:style='centered', :slot='extension')
+      v-text-field(prepend-icon='search', label='search', flat)
 </template>
 
 <script>
@@ -58,6 +59,11 @@ export default {
       if (this.$vuetify.breakpoint.smAndDown) {
         return 'extension'
       } return 'default'
+    },
+    centered: function () {
+      if (this.$vuetify.breakpoint.smAndDown) {
+        return 'padding-left: 25px; padding-right: 15px; width:100%;'
+      } return ''
     }
   }
 }
