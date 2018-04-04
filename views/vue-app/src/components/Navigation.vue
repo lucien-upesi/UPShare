@@ -27,7 +27,8 @@ div
       v-icon swap_vert
     v-spacer
     v-spacer
-    v-text-field(:slot='extension', prepend-icon='search', label='search', flat)
+    div(:style='centered', :slot='extension')
+      v-text-field(prepend-icon='search', label='search', flat)
 </template>
 
 <script>
@@ -51,13 +52,23 @@ export default {
     }
   },
   computed: {
+    // Function to extend toolbar w/mobile view
     extend: function () {
       return this.$vuetify.breakpoint.smAndDown
     },
+    // Function to set searchField on second line w/mobile view
     extension: function () {
       if (this.$vuetify.breakpoint.smAndDown) {
         return 'extension'
       } return 'default'
+    },
+    // Function to center searchField w/mobile view
+    centered: function () {
+      if (this.$vuetify.breakpoint.sm) {
+        return 'padding-left: 15px; padding-right: 15px; width:100%;'
+      } else if (this.$vuetify.breakpoint.xs) {
+        return 'padding-left: 25px; padding-right: 25px; width:100%;'
+      } return ''
     }
   }
 }
