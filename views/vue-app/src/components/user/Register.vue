@@ -11,9 +11,9 @@
               v-text-field(prepend-icon='person', label='Last Name', v-model="lastName", :rules='nameRules', required, autocomplete='family-name')
               v-menu(ref="menu", lazy='', :close-on-content-click='false', v-model="menu", transition='scale-transition', offset-y='', full-width='', :nudge-right='40', min-width='290px')
                 v-text-field(slot="activator", label='Birthday date', v-model="birthday", prepend-icon='event', readonly, :rules='pickRules', autocomplete='bday')
-                v-date-picker(ref='picker', v-model="birthday", @change='save', min='1950-01-01', :max='new Date().toISOString().substr(0, 10)')
+                v-date-picker(ref='picker', v-model="birthday", @change='save', min='1920-01-01', :max='new Date().toISOString().substr(0, 10)')
 
-              v-select(prepend-icon='location_on', single-line, :items='states.map(item=> item.Name)', v-model='country', label='Country', autocomplete, :rules='pickRules')
+              v-select(prepend-icon='location_on', single-line, :items='states', item-text='Name', item-value='Code' v-model='country', label='Country', autocomplete, :rules='pickRules')
               v-text-field(autocomplete='email' prepend-icon='email', name='email', label='E-mail', type='email', :rules="emailRules" required, v-model="email")
               v-text-field#password(autocomplete='new-password' prepend-icon='lock', name='password', label='Password', type='password', :rules='pwdRules', required, v-model="pwd")
 
@@ -65,7 +65,7 @@ export default {
     },
     submit () {
       if (this.$refs.form.validate()) {
-        axios.put('/users', {user_email: this.email, user_password: this.pwd, user_first_name: this.firstName, user_last_name: this.lastName, user_country: this.country, user_birthday: this.birthday})
+        axios.put('/users', {email: this.email, password: this.pwd, first_name: this.firstName, last_name: this.lastName, country: this.country, birthday: this.birthday})
           .then(response => {
             console.log(response)
           })
