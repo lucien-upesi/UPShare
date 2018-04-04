@@ -4,6 +4,7 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const csrf = require('csurf');
+const cors = require('cors')
 
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
@@ -12,8 +13,14 @@ const FileStore = require('session-file-store')(session);
 
 const index = require('./routes/index');
 const users = require('./routes/users');
+const files = require('./routes/files');
+const teams = require('./routes/teams');
+
+
 
 const app = express();
+
+app.use(cors({origin: ['http://localhost:3000', 'http://localhost:8080'], methods: ['GET', 'PUT', 'POST', 'DELETE']}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,17 +35,6 @@ app.use(session({
     saveUninitialized: true
 }));
 
-//CORS middleware
-// const allowCrossDomain = (req, res, next)=> {
-//     res.header('Access-Control-Allow-Origin', 'localhost');
-//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-//     res.header('Access-Control-Allow-Headers', 'Content-Type');
-//
-//     console.log(res.header);
-//
-//     next();
-// };
-
 app.use(helmet());
 
 app.use(logger('dev'));
@@ -46,11 +42,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(csrf({ cookie: true }));
+//app.use(csrf({ cookie: true }));
 // app.use(allowCrossDomain);
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/files', files);
+app.use('/teams', teams);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

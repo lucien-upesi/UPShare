@@ -1,18 +1,36 @@
 <template lang="pug">
-  v-container.mt-0
-    v-layout
-      v-flex.text-xs-center(xs12)
-        img(src="../assets/upshare.png")
-        p.mt-4 Per hoc minui studium suum existimans Paulus, ut erat in conplicandis negotiis artifex dirus, unde ei Catenae inditum est cognomentum, vicarium ipsum eos quibus praeerat adhuc defensantem ad sortem periculorum communium traxit. et instabat ut eum quoque cum tribunis et aliis pluribus ad comitatum imperatoris vinctum perduceret: quo percitus ille exitio urgente abrupto ferro eundem adoritur Paulum. et quia languente dextera, letaliter ferire non potuit, iam districtum mucronem in proprium latus inpegit. hocque deformi genere mortis excessit e vita iustissimus rector ausus miserabiles casus levare multorum.
-    v-flex.layout.justify-center.mt-4
-      div
-        v-btn(to='Login', color='primary') Login
-        v-btn(to='Register', color='primary') Register
+  v-layout(align-center justify-center, fill-height)
+    v-flex(xs12)
+      v-card(:class="{'mt-3': $vuetify.breakpoint.smAndDown}")
+        div.layout.justify-center
+          img(src="../assets/upshare.png")
+        v-card-title(primary-title='')
+          div
+            h3.headline.mb-0 UpShare, uploads everythings !
+            div
+              | Welcome in UpShare,
+              br
+              | Please login or register
+        v-card-actions
+          v-btn(to='Login', flat, color='primary') Login
+          v-btn(to='Register', flat, color='primary') Register
+    p {{ content }}
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  name: 'Home'
+  name: 'Home',
+  data () {
+    return {
+      content: ''
+    }
+  },
+  mounted () {
+    axios.get('http://localhost:3000/').then(response => {
+      this.content = response.data
+    })
+  }
 }
 </script>
 
