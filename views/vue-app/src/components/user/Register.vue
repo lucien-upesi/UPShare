@@ -65,7 +65,7 @@ export default {
     },
     submit () {
       if (this.$refs.form.validate()) {
-        axios.put('/users', {email: this.email, password: this.pwd, first_name: this.firstName, last_name: this.lastName, country: this.country, birthday: this.birthday})
+        axios.put('/users', {email: this.email, password: this.pwd, first_name: this.firstName, last_name: this.lastName, ctry: this.country, birthday: this.birthday})
           .then(response => {
             console.log(response)
           })

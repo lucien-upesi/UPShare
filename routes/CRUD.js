@@ -1,11 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
-//
-router.use((req, res, next)=>{
-    res.locals.table = req.baseUrl.substring(1, req.baseUrl.length-1);
-    next()
-});
 
 router.get('/',  (req, res)=> {
     db.query(`SELECT * FROM ${res.locals.table}`, (err, results)=>{
@@ -16,10 +11,10 @@ router.get('/',  (req, res)=> {
 });
 
 router.put('/', (req, res)=>{
-    db.query(`INSERT INTO ${res.locals.table} SET ?`, req.body, (error, results)=> {
-        if (error) throw error;
-        res.json({id: results.insertId.toString()});
-    });
+    // db.query(`INSERT INTO ${res.locals.table} SET ?`, req.body, (error, results)=> {
+    //     if (error) throw error;
+    //     res.json({id: results.insertId.toString()});
+    // });
 });
 
 router.post('/:id', (req, res)=>{

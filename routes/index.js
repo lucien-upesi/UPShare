@@ -58,12 +58,11 @@ router.get('/init', (req, res)=>{
         db.query('INSERT INTO country SET ?', {ctry_id: item[1].Code, ctry_name:item[1].Name}, (err, result)=>{
             if (err) throw err;
 
-            res.send('success')
-        })
+        });
     }
+    res.send('success')
 
-
-})
+});
 
 // router.get('/modal', (req, res, next)=>{
 //

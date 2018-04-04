@@ -62,7 +62,7 @@ export default {
         return 'extension'
       } return 'default'
     },
-    // Function to center searchField w/mobile view
+    // Function to center searchField w/sm & xs view
     centered: function () {
       if (this.$vuetify.breakpoint.sm) {
         return 'padding-left: 15px; padding-right: 15px; width:100%;'

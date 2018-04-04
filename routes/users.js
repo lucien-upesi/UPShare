@@ -3,11 +3,14 @@ const router = express.Router();
 const crud = require('./CRUD');
 const db = require('../config/db');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const chkTable = require ('./utils/checkTable');
 
 const secretJWT = 'Y}MYW<VwzYP8G/Y2';
 const headerTokenName = 'jwt-token';
-const saltrounds = 11
+const saltrounds = 11;
+
+router.use(chkTable);
 
 router.get('/', (req, res) => {
     db.query(`SELECT user_email FROM user`, (err, results) => {
@@ -19,9 +22,13 @@ router.get('/', (req, res) => {
 
 router.put('/', (req, res) => {
     bcrypt.hash(req.body.password, saltrounds, function(err, hash) {
-        // Store hash in your password DB.
+        res.locals.body.user_password = hash;
+        db.query(`INSERT INTO user SET ?`, res.locals.body, (err, results) => {
+            if (err) throw err;
+            console.log(results)
+        })
     });
-
+    res.send('OK')
 });
 
 router.use(crud);

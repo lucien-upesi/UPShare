@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'Login',
   data: () => ({
@@ -36,7 +37,14 @@ export default {
     submit () {
       if (this.$refs.form.validate()) {
         // Native form submission is not yet supported
-
+        axios.put('http://localhost:3000/users', {email: this.email, pwd: this.pwd}
+          .then(response => {
+            console.log(response)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+        )
       }
     }
   }
