@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon --watch public --watch routes --watch views -e pug,js --watch app.js ./bin/www"
+    "start": "nodemon --watch app.js --watch public --watch routes --watch views -e pug,js  ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
+    "cors": "^2.8.4",
     "csurf": "^1.9.0",
     "debug": "~3.1.0",
     "express": "~4.16.2",

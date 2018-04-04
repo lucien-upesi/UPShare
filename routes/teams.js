@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const crud = require('./CRUD');
 
-router.get('/', (req, res, next) => {
-    res.send('get all groups')
 
-});
+router.use(crud);
+
+
+module.exports = router;
 

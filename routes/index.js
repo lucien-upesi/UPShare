@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router();
 const countries = require('../public/country.json');
 
+
 /* GET home page. */
-router.get('/', (req, res, next)=> {
-  res.render('index', { title: 'UpShare' });
+router.get('/', (req, res)=> {
+    res.send('home')
+
 });
 
 router.get('/signin', (req, res, next)=> {

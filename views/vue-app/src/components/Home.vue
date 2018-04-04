@@ -14,11 +14,23 @@
         v-card-actions
           v-btn(to='Login', flat, color='primary') Login
           v-btn(to='Register', flat, color='primary') Register
+    p {{ content }}
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  name: 'Home'
+  name: 'Home',
+  data () {
+    return {
+      content: ''
+    }
+  },
+  mounted () {
+    axios.get('http://localhost:3000/').then(response => {
+      this.content = response.data
+    })
+  }
 }
 </script>
 
