@@ -13,9 +13,11 @@
             v-card-actions
               v-spacer
               v-btn(flat color='primary', :disabled='!valid' v-on:click='submit') Login
+            v-alert(type='error', :value='errorMsg' transition="slide-y-transition") {{ errorMsg }}
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'Login',
   data: () => ({
@@ -23,6 +25,7 @@ export default {
     menu: false,
     email: '',
     pwd: '',
+    errorMsg: '',
     emailRules: [
       v => !!v || 'E-mail is required',
       v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
@@ -35,8 +38,20 @@ export default {
 
     submit () {
       if (this.$refs.form.validate()) {
-        // Native form submission is not yet supported
-
+        axios.post('/users/login', {email: this.email, password: this.password}).then(response => {
+          if (response.data.hasOwnProperty('error')) {
+            if (response.data.error === 'error.user.wrong.password') {
+              this.errorMsg = 'Mot de passe incorrect'
+            } else {
+              this.errorMsg = 'Une erreur est survenue'
+            }
+          } else {
+            this.$store.commit('updateToken', response.data)
+            this.$store.state.user = response.data.user
+          }
+        }).catch(() => {
+          this.errorMsg = 'Une erreur est survenue'
+        })
       }
     }
   }
