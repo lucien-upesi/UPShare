@@ -1,5 +1,3 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import Vuex from 'vuex'
 import App from './App'
@@ -20,8 +18,40 @@ Vue.use(Vuetify, {
 })
 
 Vue.config.productionTip = false
+// --- STORE CONFIG ---
+const store = new Vuex.Store({
+  state: {
+    token: false,
+    user: null
+  },
+  mutations: {
+    updateToken (state, token) {
+      document.cookie = `token=${token.jwt}; expires=${token.expire}; path=/;`
+      state.token = token.jwt
+    },
+    getUser (state, token) {
+      axios.get('/user/byJWT/' + token).then(response => {
+        state.user = response.data
+        axios.defaults.headers = {'jwt-token': token}
+      })
+    }
+  }
+})
 
-const store = new Vuex.Store({})
+// --- ROUTER CONFIG ---
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.state.user === null) {
+      next({
+        path: '/login'
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({
@@ -29,5 +59,23 @@ new Vue({
   store,
   router,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  created () {
+    const JSONCookie = cookiesToJSON(document.cookie)
+    if (JSONCookie.hasOwnProperty('token')) {
+      this.$store.state.token = JSONCookie.token
+      this.$store.commit('getUser', JSONCookie.token)
+    }
+  }
 })
+
+// cookie-parser
+function cookiesToJSON (str) {
+  str = str.split(', ')
+  const result = {}
+  for (let i = 0; i < str.length; i++) {
+    const a = str[i].split('=')
+    result[a[0]] = a[1]
+  }
+  return result
+}

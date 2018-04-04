@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const countries = require('../public/country.json');
+const db = require('../config/db');
 
 
 /* GET home page. */
@@ -50,6 +51,19 @@ router.post('/post', function (req, res, next) {
     res.send("posted");
 
 });
+
+router.get('/init', (req, res)=>{
+    for (let item of Object.entries(countries)) {
+        //console.log(item[1].Code)
+        db.query('INSERT INTO country SET ?', {ctry_id: item[1].Code, ctry_name:item[1].Name}, (err, result)=>{
+            if (err) throw err;
+
+            res.send('success')
+        })
+    }
+
+
+})
 
 // router.get('/modal', (req, res, next)=>{
 //

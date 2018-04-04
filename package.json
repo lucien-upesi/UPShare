@@ -6,6 +6,7 @@
     "start": "nodemon --watch app.js --watch public --watch routes --watch views -e pug,js  ./bin/www"
   },
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.4",
@@ -14,6 +15,7 @@
     "express": "~4.16.2",
     "express-session": "^1.15.6",
     "helmet": "^3.10.0",
+    "jsonwebtoken": "^8.2.0",
     "morgan": "~1.9.0",
     "multer": "^1.3.0",
     "mysql": "^2.15.0",
