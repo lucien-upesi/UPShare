@@ -2,11 +2,8 @@
 div
   v-navigation-drawer(class='grey darken-3', width='200', dark, fixed, v-model='drawer', app)
     v-list.pa-1
-      v-list-tile(avatar='')
-        v-list-tile-avatar
-          img(src='https://randomuser.me/api/portraits/men/85.jpg')
-        v-list-tile-content
-          v-list-tile-title John Leider
+      v-list-tile-content
+        v-list-tile-title Welcome, {{ user.user_first_name }} {{ user.user_last_name }}
     v-list.pt-0(dense='')
       v-divider
       v-list-tile(v-for='item in items', :key='item.title', :to= 'item.to')
@@ -48,7 +45,8 @@ export default {
         {title: 'Settings', icon: 'settings', to: 'account'},
         {title: 'Help', icon: 'help', to: 'help'},
         {title: 'About', icon: 'question_answer', to: 'about'}
-      ]
+      ],
+      user: this.$store.state.user
     }
   },
   computed: {
