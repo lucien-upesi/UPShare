@@ -50,36 +50,28 @@ export default {
         {title: 'Settings', icon: 'settings', to: 'account'},
         {title: 'Help', icon: 'help', to: 'help'},
         {title: 'About', icon: 'question_answer', to: 'about'}
-      ]
+      ],
+      user: this.$store.state.user
     }
   },
   computed: {
-    // Function to extend toolbar w/mobile view
+    /* Function to extend toolbar w/mobile view */
     extend: function () {
       return this.$vuetify.breakpoint.smAndDown
     },
-    // Function to set searchField on second line w/mobile view
+    /* Function to set searchField on second line w/mobile view */
     extension: function () {
       if (this.$vuetify.breakpoint.smAndDown) {
         return 'extension'
       } return 'default'
     },
-    // Function to center searchField w/sm & xs view
+    /* Function to center searchField w/sm & xs view */
     centered: function () {
       if (this.$vuetify.breakpoint.sm) {
         return 'padding-left: 15px; padding-right: 15px; width:100%;'
       } else if (this.$vuetify.breakpoint.xs) {
         return 'padding-left: 25px; padding-right: 25px; width:100%;'
       } return ''
-    },
-    user () {
-      return this.$store.state.user
-    }
-  },
-  methods: {
-    logout () {
-      this.$store.commit('logout')
-      this.$router.push('/')
     }
   }
 }

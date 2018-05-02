@@ -14,7 +14,7 @@
         v-card-actions
           v-btn(to='Login', flat, color='primary') Login
           v-btn(to='Register', flat, color='primary') Register
-    p {{ content }}
+    // p {{ content }}
 </template>
 
 <script>

@@ -19,6 +19,7 @@
 
               v-card-actions
                 v-spacer
+                v-btn(v-if="isShow" flat, v-on:click='modifyPwd') {{ modifyText }}
                 v-btn(flat, :disabled='!valid' v-on:click='submit') {{ submitText }}
 </template>
 
@@ -30,6 +31,8 @@ export default {
   data: () => ({
     submitText: '',
     titleSubmitText: '',
+    resetText: '',
+    isShow: false,
     valid: true,
     menu: false,
     firstName: '',
@@ -70,6 +73,16 @@ export default {
             console.log(response)
           })
       }
+    },
+    modifyPwd () {
+      return this.$router.push({name: 'ChangePwd'})
+    }
+  },
+
+  computed: {
+    /* Function to retrieve data stored in $store */
+    user: function () {
+      return this.$store.state.user
     }
   },
   created () {
@@ -79,6 +92,15 @@ export default {
     } else if (this.$route.name === 'Account') {
       this.submitText = 'Update'
       this.titleSubmitText = 'Account Settings'
+      /* Show only changePassword button when logged */
+      this.isShow = true
+      this.modifyText = 'Modify Password'
+      /* Pass data in $store to the field */
+      this.lastName = this.user.lastName
+      this.firstName = this.user.firstName
+      this.birthday = this.user.birthday
+      this.country = this.user.ctry
+      this.email = this.user.email
     }
   }
 }

@@ -15,7 +15,7 @@ const teams = require('./routes/teams')
 
 const app = express()
 
-app.use(cors({origin: ['http://localhost:3000', 'http://localhost:8080'], methods: ['GET', 'PUT', 'POST', 'DELETE']}))
+app.use(cors({origin: ['http://localhost:3000', 'http://localhost:8080', 'http://localhost:8081'], methods: ['GET', 'PUT', 'POST', 'DELETE']}))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))

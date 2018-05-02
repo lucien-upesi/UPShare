@@ -13,6 +13,7 @@
             v-card-actions
               v-spacer
               v-btn(flat color='primary', :disabled='!valid' v-on:click='submit') Login
+              // v-btn(flat, color='primary') Forgot Password ?
             v-alert(type='error', :value='errorMsg' transition="slide-y-transition") {{ errorMsg }}
 </template>
 
