@@ -38,17 +38,20 @@ export default new Router({
     {
       path: '/files',
       name: 'Files',
-      component: Document
+      component: Document,
+      meta: {requiresAuth: true}
     },
     {
       path: '/groups',
       name: 'Groups',
-      component: Document
+      component: Document,
+      meta: {requiresAuth: true}
     },
     {
       path: '/account',
       name: 'Account',
-      component: Account
+      component: Account,
+      meta: {requiresAuth: true}
     },
     {
       path: '/help',

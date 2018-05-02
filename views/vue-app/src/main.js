@@ -25,15 +25,27 @@ const store = new Vuex.Store({
     user: null
   },
   mutations: {
-    updateToken (state, token) {
-      document.cookie = `token=${token.jwt}; expires=${token.expire}; path=/;`
-      state.token = token.jwt
-    },
     getUser (state, token) {
       axios.get('/users/byJWT/' + token).then(response => {
-        state.user = response.data
-        axios.defaults.headers = {'jwt-token': token}
+        if (!response.data.error) {
+          state.user = response.data
+          state.token = token
+          axios.defaults.headers = {'jwt-token': token}
+        } else {
+          state.token = false
+        }
       })
+    },
+    logout (state) {
+      document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+      state.token = false
+      state.user = null
+    },
+    login (state, data) {
+      document.cookie = `token=${data.jwt}; expires=${data.expire}; path=/;`
+      state.token = data.jwt
+      state.user = data.user
+      axios.defaults.headers = {'jwt-token': data.jwt}
     }
   }
 })
@@ -63,7 +75,6 @@ new Vue({
   created () {
     const JSONCookie = cookiesToJSON(document.cookie)
     if (JSONCookie.hasOwnProperty('token')) {
-      this.$store.state.token = JSONCookie.token
       this.$store.commit('getUser', JSONCookie.token)
     }
   }

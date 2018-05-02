@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     if (err) {
       res.send({error: err.message})
     } else {
-      res.json(results)
+      res.json(results[0])
     }
   })
 })
@@ -42,6 +42,5 @@ router.delete('/:id', (req, res) => {
     }
   })
 })
-
 
 module.exports = router

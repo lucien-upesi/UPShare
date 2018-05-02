@@ -1,10 +1,10 @@
 <template lang="pug">
 div
   v-navigation-drawer(class='grey darken-3', width='200', dark, fixed, v-model='drawer', app)
-    v-list.pa-1
+    v-list.pa-1(v-if='user')
       v-list-tile-content
         v-list-tile-title Welcome, {{ user.user_first_name }} {{ user.user_last_name }}
-    v-list.pt-0(dense='')
+    v-list.pt-0(dense)
       v-divider
       v-list-tile(v-for='item in items', :key='item.title', :to= 'item.to')
         v-list-tile-action
@@ -17,6 +17,11 @@ div
           v-icon {{ setting.icon }}
         v-list-tile-content
           v-list-tile-title {{ setting.title }}
+      v-list-tile(v-if="user", @click="logout")
+        v-list-tile-action
+          v-icon person_outline
+        v-list-tile-content
+          v-list-tile-title Disconnect
     v-spacer
   v-toolbar(:extended='extend', color='grey darken-3', dark, fixed, app)
     v-toolbar-side-icon(@click.stop='drawer = !drawer')
@@ -45,8 +50,7 @@ export default {
         {title: 'Settings', icon: 'settings', to: 'account'},
         {title: 'Help', icon: 'help', to: 'help'},
         {title: 'About', icon: 'question_answer', to: 'about'}
-      ],
-      user: this.$store.state.user
+      ]
     }
   },
   computed: {
@@ -67,6 +71,15 @@ export default {
       } else if (this.$vuetify.breakpoint.xs) {
         return 'padding-left: 25px; padding-right: 25px; width:100%;'
       } return ''
+    },
+    user () {
+      return this.$store.state.user
+    }
+  },
+  methods: {
+    logout () {
+      this.$store.commit('logout')
+      this.$router.push('/')
     }
   }
 }

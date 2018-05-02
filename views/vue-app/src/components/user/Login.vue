@@ -44,8 +44,8 @@ export default {
               this.errorMsg = response.data.error
             }
           } else {
-            this.$store.commit('updateToken', response.data)
-            this.$store.state.user = response.data.user
+            this.$store.commit('login', response.data)
+            this.$router.push('/')
           }
         }).catch(() => {
           this.errorMsg = 'Une erreur est survenue'

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon --watch app.js --watch public --watch routes --watch views -e pug,js  ./bin/www"
+    "start": "nodemon --watch app.js --watch public --watch config --watch routes --watch model --watch views -e pug,js  ./bin/www"
   },
   "dependencies": {
     "bcrypt": "^1.0.3",
