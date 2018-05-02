@@ -1,44 +1,35 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
 const table = [
-    'contains',
-    'country',
-    'file',
-    'grade',
-    'grade_team_user',
-    'team',
-    'team_file',
-    'user'
-];
+  {name: 'user', prefix: 'user'},
+  {name: 'file', prefix: 'file'},
+  {name: 'team', prefix: 'team'}
+]
 
-router.use((req, res, next)=>{
+router.use((req, res, next) => {
+  const queryTableName = req.baseUrl.substring(1, req.baseUrl.length - 1)
 
-    const queryTableName = req.baseUrl.substring(1, req.baseUrl.length-1);
-
-    for (let i = 0; i < table.length; i++) {
-        if (table[i] === queryTableName) {
-            res.locals.table = queryTableName;
-            break
-        }
+  for (let i = 0; i < table.length; i++) {
+    if (table[i].name === queryTableName) {
+      res.locals.table = table[i].name
+      res.locals.prefix = table[i].prefix
+      break
     }
+  }
 
-    if (res.locals.table !== undefined) {
+  if (res.locals.table !== undefined) {
+    res.locals.body = {}
 
-        res.locals.body = {};
-
-        console.log(res.locals.table);
-        for (let [key, value] of Object.entries(req.body)) {
-
-            let result = res.locals.table + "_" + key;
-            res.locals.body[result] = value;
-        }
-        console.log(res.locals.body);
-        next()
-    } else {
-        res.status(404);
-        res.send('Dégage');
+    for (let [key, value] of Object.entries(req.body)) {
+      let result = res.locals.prefix + '_' + key
+      res.locals.body[result] = value
     }
-});
+    next()
+  } else {
+    res.status(404)
+    res.send('Not authorized')
+  }
+})
 
-module.exports = router;
+module.exports = router

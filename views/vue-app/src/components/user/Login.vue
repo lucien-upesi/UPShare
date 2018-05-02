@@ -38,12 +38,10 @@ export default {
 
     submit () {
       if (this.$refs.form.validate()) {
-        axios.post('/users/login', {email: this.email, password: this.password}).then(response => {
+        axios.post('/users/login', {email: this.email, password: this.pwd}).then(response => {
           if (response.data.hasOwnProperty('error')) {
-            if (response.data.error === 'error.user.wrong.password') {
-              this.errorMsg = 'Mot de passe incorrect'
-            } else {
-              this.errorMsg = 'Une erreur est survenue'
+            if (response.data.error) {
+              this.errorMsg = response.data.error
             }
           } else {
             this.$store.commit('updateToken', response.data)

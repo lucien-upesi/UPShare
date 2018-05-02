@@ -30,7 +30,7 @@ const store = new Vuex.Store({
       state.token = token.jwt
     },
     getUser (state, token) {
-      axios.get('/user/byJWT/' + token).then(response => {
+      axios.get('/users/byJWT/' + token).then(response => {
         state.user = response.data
         axios.defaults.headers = {'jwt-token': token}
       })

@@ -80,11 +80,6 @@ export default {
       this.submitText = 'Update'
       this.titleSubmitText = 'Account Settings'
     }
-  },
-  mounted () {
-    axios.get('/users').then(response => {
-      console.log(response)
-    })
   }
 }
 </script>
