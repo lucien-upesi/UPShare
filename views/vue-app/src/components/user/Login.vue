@@ -13,7 +13,9 @@
             v-card-actions
               v-spacer
               v-btn(flat color='primary', :disabled='!valid' v-on:click='submit') Login
+              // v-btn(flat, color='primary') Forgot Password ?
             v-alert(type='error', :value='errorMsg' transition="slide-y-transition") {{ errorMsg }}
+            v-alert(type='success', :value='successMsg' transition="slide-y-transition") {{ successMsg }}
 </template>
 
 <script>
@@ -26,6 +28,7 @@ export default {
     email: '',
     pwd: '',
     errorMsg: '',
+    successMsg: '',
     emailRules: [
       v => !!v || 'E-mail is required',
       v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
@@ -46,6 +49,8 @@ export default {
           } else {
             this.$store.commit('updateToken', response.data)
             this.$store.state.user = response.data.user
+            this.successMsg = 'Login successfull'
+            this.$router.push({name: 'Files'})
           }
         }).catch(() => {
           this.errorMsg = 'Une erreur est survenue'

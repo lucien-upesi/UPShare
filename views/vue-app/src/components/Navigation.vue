@@ -1,9 +1,9 @@
 <template lang="pug">
 div
   v-navigation-drawer(class='grey darken-3', width='200', dark, fixed, v-model='drawer', app)
-    v-list.pa-1
+    v-list.pa-1(v-if='user')
       v-list-tile-content
-        v-list-tile-title Welcome, {{ user.user_first_name }} {{ user.user_last_name }}
+        v-list-tile-title Welcome, {{ user.first_name }} {{ user.last_name }}
     v-list.pt-0(dense='')
       v-divider
       v-list-tile(v-for='item in items', :key='item.title', :to= 'item.to')
@@ -50,17 +50,17 @@ export default {
     }
   },
   computed: {
-    // Function to extend toolbar w/mobile view
+    /* Function to extend toolbar w/mobile view */
     extend: function () {
       return this.$vuetify.breakpoint.smAndDown
     },
-    // Function to set searchField on second line w/mobile view
+    /* Function to set searchField on second line w/mobile view */
     extension: function () {
       if (this.$vuetify.breakpoint.smAndDown) {
         return 'extension'
       } return 'default'
     },
-    // Function to center searchField w/sm & xs view
+    /* Function to center searchField w/sm & xs view */
     centered: function () {
       if (this.$vuetify.breakpoint.sm) {
         return 'padding-left: 15px; padding-right: 15px; width:100%;'

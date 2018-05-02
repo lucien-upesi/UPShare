@@ -71,11 +71,18 @@ router.post('/login', (req, res) => {
           res.send(err.message)
         } else {
           if (valid) {
-            const token = jwt.sign({user: result[0].id}, secretJWT, {expiresIn: '7d'})
-            const date = new Date(jwt.decode(token).exp * 1000)
-            date.setHours(date.getHours() + 2)
 
-            res.send({jwt: token, expire: date.toUTCString(), user: result[0].id})
+            db.query(`SELECT user_id as id, user_email as email, user_birthday as birthday, user_first_name as firstName, user_last_name as lastName, user_ctry as ctry FROM ${res.locals.table} WHERE user_email = ?`, [req.body.email], (err, result) => {
+              if(err) {
+                res.send(err.message)
+              } else {
+                  const token = jwt.sign({user: result[0].id}, secretJWT, {expiresIn: '7d'})
+                  const date = new Date(jwt.decode(token).exp * 1000)
+                  date.setHours(date.getHours() + 2)
+
+                  res.send({jwt: token, expire: date.toUTCString(), user: result[0]})
+              }
+            })
           } else {
             res.send({error: 'invalid password'})
           }

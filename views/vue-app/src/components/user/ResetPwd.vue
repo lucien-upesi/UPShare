@@ -23,6 +23,7 @@ export default {
       valid: true,
       pwd: '',
       repwd: '',
+      oldpwd: '',
       pwdRules: [
         v => !!v || 'Password is required',
         v => (v && v.length > 5) || 'Password length can be less than 6'

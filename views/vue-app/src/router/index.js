@@ -6,6 +6,7 @@ import Register from '@/components/user/Register'
 import Account from '@/components/user/Account'
 import Login from '@/components/user/Login'
 import ResetPwd from '@/components/user/ResetPwd'
+import ChangePwd from '@/components/user/ChangePwd'
 import Document from '@/components/main/Document'
 import Help from '@/components/main/Help'
 import About from '@/components/main/About'
@@ -33,22 +34,32 @@ export default new Router({
       path: '/resetPassword/:token',
       name: 'ResetPwd',
       component: ResetPwd,
-      props: true
+      props: true,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/changePassword',
+      name: 'ChangePwd',
+      component: ChangePwd,
+      meta: { requiresAuth: true }
     },
     {
       path: '/files',
       name: 'Files',
-      component: Document
+      component: Document,
+      meta: { requiresAuth: true }
     },
     {
       path: '/groups',
       name: 'Groups',
-      component: Document
+      component: Document,
+      meta: { requiresAuth: true }
     },
     {
       path: '/account',
       name: 'Account',
-      component: Account
+      component: Account,
+      meta: { requiresAuth: true }
     },
     {
       path: '/help',
