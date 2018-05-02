@@ -4,10 +4,11 @@ class CRUD {
   constructor (table, prefix) {
     this.table = table
     this.prefix = prefix
+    this.db = db
   }
   get (id) {
     return new Promise((resolve, reject) => {
-      db.query(`SELECT * FROM ${this.table} WHERE ${this.prefix}_id =  ${id}`, (err, results) => {
+      db.query(`SELECT * FROM ${this.table} WHERE ${this.prefix}_id =  ?`, [id], (err, results) => {
         if (err) reject(new Error(err.message))
         else {
           resolve(results[0])

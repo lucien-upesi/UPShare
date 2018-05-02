@@ -1,4 +1,3 @@
-const db = require('../../config/db')
 const bcrypt = require('bcrypt')
 const saltrounds = 11
 const CRUD = require('./CRUD')
@@ -11,7 +10,7 @@ class User extends CRUD {
   }
   get (id) {
     return new Promise((resolve, reject) => {
-      db.query(`SELECT user_email, user_id, user_last_name, user_first_name, user_birthday, user_ctry FROM user WHERE user_id = ?`, [id], (err, results) => {
+      this.db.query(`SELECT user_email, user_id, user_last_name, user_first_name, user_birthday, user_ctry FROM user WHERE user_id = ?`, [id], (err, results) => {
         if (err) reject(new Error(err.message))
         else {
           resolve(results[0])
@@ -25,7 +24,7 @@ class User extends CRUD {
         if (err) reject(new Error(err.message))
         else {
           user['user_password'] = hash
-          db.query(`INSERT INTO user SET ?`, user, (err, result) => {
+          this.db.query(`INSERT INTO user SET ?`, user, (err, result) => {
             if (err) reject(new Error(err.message))
             else {
               resolve(this.get(result.insertId.toString()))
@@ -40,7 +39,7 @@ class User extends CRUD {
       jwt.verify(token, strings.secretJWT, (err, decoded) => {
         if (err) reject(new Error(err.message))
         else {
-          db.query(`SELECT user_email, user_id, user_last_name, user_first_name, user_birthday, user_ctry FROM ${this.table} WHERE user_id = ?`, [decoded.user], (err, results) => {
+          this.db.query(`SELECT user_email, user_id, user_last_name, user_first_name, user_birthday, user_ctry FROM ${this.table} WHERE user_id = ?`, [decoded.user], (err, results) => {
             if (err) reject(new Error(err.message))
             else {
               resolve(results[0])
@@ -52,7 +51,7 @@ class User extends CRUD {
   }
   login (email, password) {
     return new Promise((resolve, reject) => {
-      db.query(`SELECT user_id as id, user_password as password FROM ${this.table} WHERE user_email = ?`, [email], (err, result) => {
+      this.db.query(`SELECT user_id as id, user_password as password FROM ${this.table} WHERE user_email = ?`, [email], (err, result) => {
         if (err) reject(new Error(err.message))
         else {
           bcrypt.compare(password, result[0].password, async (err, valid) => {

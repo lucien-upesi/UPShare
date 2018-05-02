@@ -50,8 +50,7 @@ export default {
         {title: 'Settings', icon: 'settings', to: 'account'},
         {title: 'Help', icon: 'help', to: 'help'},
         {title: 'About', icon: 'question_answer', to: 'about'}
-      ],
-      user: this.$store.state.user
+      ]
     }
   },
   computed: {
@@ -72,6 +71,15 @@ export default {
       } else if (this.$vuetify.breakpoint.xs) {
         return 'padding-left: 25px; padding-right: 25px; width:100%;'
       } return ''
+    },
+    user () {
+      return this.$store.state.user
+    }
+  },
+  methods: {
+    logout () {
+      this.$store.commit('logout')
+      this.$router.push('/')
     }
   }
 }
