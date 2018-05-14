@@ -5,9 +5,10 @@ const jwt = require('jsonwebtoken')
 const strings = require('../../config/strings')
 
 class User extends CRUD {
-  constructor () {
+  constructor() {
     super('user', 'user')
   }
+
   get (id) {
     return new Promise((resolve, reject) => {
       this.db.query(`SELECT user_email, user_id, user_last_name, user_first_name, user_birthday, user_ctry FROM user WHERE user_id = ?`, [id], (err, results) => {
@@ -18,6 +19,7 @@ class User extends CRUD {
       })
     })
   }
+
   put (user) {
     return new Promise((resolve, reject) => {
       bcrypt.hash(user['user_password'], saltrounds, (err, hash) => {
@@ -34,22 +36,17 @@ class User extends CRUD {
       })
     })
   }
-  getByJWT (token) {
-    return new Promise((resolve, reject) => {
-      jwt.verify(token, strings.secretJWT, (err, decoded) => {
-        if (err) reject(new Error(err.message))
-        else {
-          this.db.query(`SELECT user_email, user_id, user_last_name, user_first_name, user_birthday, user_ctry FROM ${this.table} WHERE user_id = ?`, [decoded.user], (err, results) => {
-            if (err) reject(new Error(err.message))
-            else {
-              resolve(results[0])
-            }
-          })
-        }
-      })
+
+  async getByJWT(token) {
+    return jwt.verify(token, strings.secretJWT, async (err, decoded) => {
+      if (err) return { error: err.message }
+      else {
+        return this.get(decoded.user)
+      }
     })
   }
-  login (email, password) {
+
+  login(email, password) {
     return new Promise((resolve, reject) => {
       this.db.query(`SELECT user_id as id, user_password as password FROM ${this.table} WHERE user_email = ?`, [email], (err, result) => {
         if (err) reject(new Error(err.message))

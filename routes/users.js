@@ -22,9 +22,7 @@ router.put('/', (req, res) => {
 // router.use(crud)
 
 router.get('/byJWT/:token', (req, res) => {
-  new User().getByJWT(req.params.token).then(response => {
-    res.json(response)
-  })
+  new User().getByJWT(req.params.token).then(response => res.json(response))
 })
 
 router.post('/login', (req, res) => {

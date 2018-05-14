@@ -1,14 +1,13 @@
-const db = require('../../config/db')
-
 class CRUD {
   constructor (table, prefix) {
     this.table = table
     this.prefix = prefix
-    this.db = db
+    this.db = require('../../config/db')
   }
+
   get (id) {
     return new Promise((resolve, reject) => {
-      db.query(`SELECT * FROM ${this.table} WHERE ${this.prefix}_id =  ?`, [id], (err, results) => {
+      this.db.query(`SELECT * FROM ${this.table} WHERE ${this.prefix}_id =  ?`, [id], (err, results) => {
         if (err) reject(new Error(err.message))
         else {
           resolve(results[0])
@@ -18,19 +17,21 @@ class CRUD {
   }
   getAll () {
     return new Promise((resolve, reject) => {
-      db.query(`SELECT * FROM ${this.table}`, (err, results) => {
+      this.db.query(`SELECT * FROM ${this.table}`, (err, results) => {
         if (err) reject(new Error(err.message))
         else {
-          resolve(results[0])
+          if (results[0]) resolve(results)
+          else resolve('no data')
         }
       })
     })
   }
   put (entity) {
     return new Promise((resolve, reject) => {
-      db.query(`INSERT INTO ${this.table} SET ?`, entity, (err, results) => {
+      this.db.query(`INSERT INTO ${this.table} SET ?`, entity, (err, results) => {
         if (err) reject(new Error(err.message))
         else {
+          console.log(results)
           resolve(this.get(results.insertId.toString()))
         }
       })
@@ -38,17 +39,17 @@ class CRUD {
   }
   update (id, entity) {
     return new Promise((resolve, reject) => {
-      db.query(`UPDATE ${this.table} SET ? WHERE ${this.prefix}_id = ?`, [entity, id], (err, results) => {
+      this.db.query(`UPDATE ${this.table} SET ? WHERE ${this.prefix}_id = ?`, [entity, id], (err, results) => {
         if (err) reject(new Error(err.message))
         else {
-          resolve(this.get(results.insertId.toString()))
+          resolve(this.get(id))
         }
       })
     })
   }
   erase (id) {
     return new Promise((resolve, reject) => {
-      db.query(`DELETE FROM ${this.table} WHERE ${this.prefix}_id = ?`, id, (err, results) => {
+      this.db.query(`DELETE FROM ${this.table} WHERE ${this.prefix}_id = ?`, id, (err, results) => {
         if (err) reject(new Error(err.message))
         else {
           resolve({id: id})
