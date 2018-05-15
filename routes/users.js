@@ -36,4 +36,16 @@ router.post('/login', (req, res) => {
 // need be logged after this
 router.use(needAuth)
 
+router.post('/changePassword', (req, res) => {
+  new User().changePwd(req.body.oldpwd, req.body.pwd, req.body.id).then(response => {
+    res.json(response)
+  })
+})
+
+router.post('/:id', (req, res) => {
+  new User().update(req.body.pwd, req.body.id, req.body.user).then(response => {
+    res.json(response)
+  })
+})
+
 module.exports = router

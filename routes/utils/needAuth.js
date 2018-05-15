@@ -10,8 +10,10 @@ router.use((req, res, next) => {
       res.status(403)
       res.send('You don\'t have the permission')
     } else {
-      res.locals.user = new User().get(decoded.user)
-      next()
+      new User().get(decoded.user).then(result => {
+        res.locals.user = result
+        next()
+      })
     }
   })
 })

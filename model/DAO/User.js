@@ -21,10 +21,10 @@ class User extends CRUD {
   }
   put (user) {
     return new Promise((resolve, reject) => {
-      bcrypt.hash(user['user_password'], saltrounds, (err, hash) => {
+      bcrypt.hash(user.user_password, saltrounds, (err, hash) => {
         if (err) reject(new Error(err.message))
         else {
-          user['user_password'] = hash
+          user.user_password = hash
           db.query(`INSERT INTO user SET ?`, user, (err, result) => {
             if (err) reject(new Error(err.message))
             else {
@@ -72,7 +72,59 @@ class User extends CRUD {
         }
       })
     })
-
+  }
+  // Verify if password match w/bdd
+  verifyPwd(password, id) {
+    return new Promise((resolve, reject) => {
+      db.query(`SELECT user_password as password FROM ${this.table} WHERE user_id = ?`, [id], (err, result) => {
+        if (err) reject(new Error(err.message))
+        else {
+          bcrypt.compare(password, result[0].password, async (err, valid) => {
+            if (err) reject(new Error(err.message))
+            else {
+              if (valid) {
+                console.log('Verify OK')
+                resolve()
+              } else {
+                reject(new Error('Password Mismatch'))
+              }
+            }
+          })
+        }
+      })
+    })
+  }
+  // Verify and Change Password
+  changePwd(oldPassword, newPassword, id) {
+    return new Promise((resolve, reject) => {
+      this.verifyPwd(oldPassword, id).then( () => {
+            bcrypt.hash(newPassword, saltrounds, (err, hash) => {
+                if (err) reject(new Error(err.message))
+                else {
+                    newPassword = hash
+                    db.query(`UPDATE ${this.table} SET ${this.prefix}_password = ? WHERE ${this.prefix}_id = ?`, [newPassword, id], (err, result) => {
+                        if (err) reject(new Error(err.message))
+                        else {
+                            resolve({success: 1})
+                        }
+                    })
+                }
+            })
+        })
+    })
+  }
+  // Override update method w/verifyPwd
+  update(password, id, user) {
+    return new Promise((resolve, reject) => {
+      this.verifyPwd(password, id).then( () => {
+        db.query(`UPDATE ${this.table} SET ? WHERE ${this.prefix}_id = ?`, [user, id], (err, result) => {
+            if (err) reject(new Error(err.message))
+            else {
+                resolve(this.get(id))
+            }
+        })
+      })
+    })
   }
 }
 
