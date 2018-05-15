@@ -5,13 +5,13 @@ const jwt = require('jsonwebtoken')
 const strings = require('../../config/strings')
 
 class User extends CRUD {
-  constructor() {
+  constructor () {
     super('user', 'user')
   }
 
   get (id) {
     return new Promise((resolve, reject) => {
-      this.db.query(`SELECT user_email, user_id, user_last_name, user_first_name, user_birthday, user_ctry FROM user WHERE user_id = ?`, [id], (err, results) => {
+      this.db.query(`SELECT user_id, user_email, user_last_name, user_first_name, user_birthday, user_ctry FROM user WHERE user_id = ?`, [id], (err, results) => {
         if (err) reject(new Error(err.message))
         else {
           resolve(results[0])
@@ -26,10 +26,11 @@ class User extends CRUD {
         if (err) reject(new Error(err.message))
         else {
           user['user_password'] = hash
+          user.user_id = CRUD.generateID()
           this.db.query(`INSERT INTO user SET ?`, user, (err, result) => {
             if (err) reject(new Error(err.message))
             else {
-              resolve(this.get(result.insertId.toString()))
+              resolve(this.get(user.user_id))
             }
           })
         }
@@ -37,7 +38,7 @@ class User extends CRUD {
     })
   }
 
-  async getByJWT(token) {
+  async getByJWT (token) {
     return jwt.verify(token, strings.secretJWT, async (err, decoded) => {
       if (err) return { error: err.message }
       else {
@@ -46,7 +47,7 @@ class User extends CRUD {
     })
   }
 
-  login(email, password) {
+  login (email, password) {
     return new Promise((resolve, reject) => {
       this.db.query(`SELECT user_id as id, user_password as password FROM ${this.table} WHERE user_email = ?`, [email], (err, result) => {
         if (err) reject(new Error(err.message))
@@ -68,7 +69,6 @@ class User extends CRUD {
         }
       })
     })
-
   }
 }
 

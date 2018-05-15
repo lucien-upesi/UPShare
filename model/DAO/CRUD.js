@@ -1,3 +1,5 @@
+const crypto = require('crypto')
+
 class CRUD {
   constructor (table, prefix) {
     this.table = table
@@ -56,6 +58,9 @@ class CRUD {
         }
       })
     })
+  }
+  static generateID () {
+    return crypto.randomBytes(8).toString('hex')
   }
 }
 module.exports = CRUD

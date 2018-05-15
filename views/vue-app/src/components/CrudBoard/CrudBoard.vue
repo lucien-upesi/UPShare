@@ -74,7 +74,6 @@ export default {
     deleteItem (item) {
       const self = this
       const index = this.items.indexOf(item)
-      console.log(this.items[index][this.prefix + '_id'])
       axios.delete(`${this.endpoint}/${this.items[index][this.prefix + '_id']}`).then(result => {
         if (result.data.error) {
           self.errorMsg = result.data.error
@@ -98,7 +97,7 @@ export default {
           if (response.data.error) {
             this.errorMsg = response.data.error
           } else {
-            Object.assign(this.items[this.editedIndex], this.editedItem)
+            Object.assign(this.items[this.editedIndex], response.data)
             this.close()
             this.errorMsg = false
           }
@@ -108,9 +107,7 @@ export default {
           if (response.data.error) {
             this.errorMsg = response.data.error
           } else {
-            const item = {}
-            item[this.prefix + '_id'] = response.data.id
-            this.items.push(Object.assign(item, this.editedItem))
+            this.items.push(response.data)
             this.close()
             this.errorMsg = false
           }
