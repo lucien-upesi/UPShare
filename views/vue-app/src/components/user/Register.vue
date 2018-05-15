@@ -40,6 +40,7 @@ export default {
     birthday: '',
     country: '',
     pwd: '',
+    id: '',
     email: '',
     states: states,
     nameRules: [
@@ -68,17 +69,31 @@ export default {
     },
     submit () {
       if (this.$refs.form.validate()) {
-        axios.put('/users', {email: this.email, password: this.pwd, first_name: this.firstName, last_name: this.lastName, ctry: this.country, birthday: this.birthday})
-          .then(response => {
-            console.log(response)
+        if (this.$route.name === 'Register') {
+          axios.put('/users', {user_email: this.email, user_password: this.pwd, user_first_name: this.firstName, user_last_name: this.lastName, user_ctry: this.country, user_birthday: this.birthday})
+            .then(response => {
+              console.log(response)
+            })
+        } else if (this.$route.name === 'Account') {
+          axios.post(`/users/${this.user.user_id}`, { pwd: this.pwd, id: this.user.user_id, user: {user_first_name: this.firstName, user_last_name: this.lastName, user_birthday: this.birthday, user_ctry: this.country, user_email: this.email} }).then(response => {
+            if (response.data.hasOwnProperty('error')) {
+              if (response.data.error) {
+                this.errorMsg = response.data.error
+              }
+            } else {
+              this.$store.state.user = response.data
+              //this.$router.push('Account')
+            }
+          }).catch(() => {
+            this.errorMsg = 'Une erreur est survenue'
           })
+        }
       }
     },
     modifyPwd () {
       return this.$router.push({name: 'ChangePwd'})
     }
   },
-
   computed: {
     /* Function to retrieve data stored in $store */
     user: function () {
@@ -96,11 +111,11 @@ export default {
       this.isShow = true
       this.modifyText = 'Modify Password'
       /* Pass data in $store to the field */
-      this.lastName = this.user.lastName
-      this.firstName = this.user.firstName
-      this.birthday = this.user.birthday
-      this.country = this.user.ctry
-      this.email = this.user.email
+      this.lastName = this.user.user_last_name
+      this.firstName = this.user.user_first_name
+      this.birthday = this.user.user_birthday
+      this.country = this.user.user_ctry
+      this.email = this.user.user_email
     }
   }
 }

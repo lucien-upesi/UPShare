@@ -24,6 +24,7 @@ export default {
     return {
       valid: true,
       pwd: '',
+      id: '',
       repwd: '',
       oldpwd: '',
       pwdRules: [
@@ -32,13 +33,27 @@ export default {
       ]
     }
   },
+  computed: {
+    /* Function to retrieve data stored in $store */
+    user: function () {
+      return this.$store.state.user
+    }
+  },
   methods: {
     submit () {
       if (this.$refs.form.validate()) {
-        // ancien pass == ok
-        // New Password === Confirm
-        // axios.post New Password
-        // vérif
+        axios.post('/users/changePassword', {oldpwd: this.oldpwd, pwd: this.pwd, id: this.user.user_id}).then(response => {
+          if (response.data.hasOwnProperty('error')) {
+            if (response.data.error) {
+              this.errorMsg = response.data.error
+            }
+          } else {
+            //this.$store.commit('changePassword', response.data)
+            this.$router.push('account')
+          }
+        }).catch(() => {
+          this.errorMsg = 'Une erreur est survenue'
+        })
       }
     }
   }

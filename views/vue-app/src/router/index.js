@@ -37,6 +37,12 @@ export default new Router({
       props: true
     },
     {
+      path: 'changePassword',
+      name: 'ChangePwd',
+      component: ChangePwd,
+      meta: { requiresAuth: true }
+    },
+    {
       path: '/files',
       name: 'Files',
       component: Document,

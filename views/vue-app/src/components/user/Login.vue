@@ -46,7 +46,7 @@ export default {
             }
           } else {
             this.$store.commit('login', response.data)
-            this.$router.push('/')
+            this.$router.push('/account')
           }
         }).catch(() => {
           this.errorMsg = 'Une erreur est survenue'
