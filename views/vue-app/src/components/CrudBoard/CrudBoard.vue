@@ -23,6 +23,7 @@
               v-icon(color='teal') edit
             v-btn.mx-0(icon='', @click='deleteItem(props.item)')
               v-icon(color='pink') delete
+            component(:is='actions', :row="props.item")
         template(slot='no-data')
           v-alert(:value="true" type='warning' icon="warning") Sorry, nothing to display here :(
 
@@ -32,7 +33,7 @@
 import axios from 'axios'
 export default {
   name: 'CrudBoard',
-  props: ['headers', 'endpoint', 'dbTableName', 'prefix'],
+  props: ['headers', 'endpoints', 'dbTableName', 'prefix', 'actions'],
   data: () => ({
     dialog: false,
     addText: '',
@@ -61,7 +62,7 @@ export default {
 
   methods: {
     initialize () {
-      axios.get(this.endpoint).then(result => {
+      axios.get(this.endpoints.get).then(result => {
         if (Array.isArray(result.data)) this.items = result.data
       })
     },
@@ -74,7 +75,7 @@ export default {
     deleteItem (item) {
       const self = this
       const index = this.items.indexOf(item)
-      axios.delete(`${this.endpoint}/${this.items[index][this.prefix + '_id']}`).then(result => {
+      axios.delete(`${this.endpoints.erase}/${this.items[index][this.prefix + '_id']}`).then(result => {
         if (result.data.error) {
           self.errorMsg = result.data.error
         } else if (result.data.id) {
@@ -93,7 +94,7 @@ export default {
 
     save () {
       if (this.editedIndex > -1) {
-        axios.post(`${this.endpoint}/${this.items[this.editedIndex][this.prefix + '_id']}`, this.editedItem).then(response => {
+        axios.post(`${this.endpoints.post}/${this.items[this.editedIndex][this.prefix + '_id']}`, this.editedItem).then(response => {
           if (response.data.error) {
             this.errorMsg = response.data.error
           } else {
@@ -103,7 +104,7 @@ export default {
           }
         })
       } else {
-        axios.put(this.endpoint, this.editedItem).then(response => {
+        axios.put(this.endpoints.put, this.editedItem).then(response => {
           if (response.data.error) {
             this.errorMsg = response.data.error
           } else {

@@ -7,16 +7,12 @@ const needAuth = require('../routes/utils/needAuth')
 
 router.use(checkTable)
 
-router.get('/:id', (req, res) => {
-  new User().get(req.params.id).then(response => {
-    res.json(response)
-  })
+router.get('/:id([a-z0-9+]{16})/', (req, res) => {
+  new User().get(req.params.id).then(response => res.json(response))
 })
 
 router.put('/', (req, res) => {
-  new User().put(req.body).then(response => {
-    res.json(response)
-  })
+  new User().put(req.body).then(response => res.json(response))
 })
 
 // router.use(crud)
@@ -26,24 +22,23 @@ router.get('/byJWT/:token', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-  new User().login(req.body.email, req.body.password).then(response => {
-    res.json(response)
-  })
+  console.log(req.body)
+  new User().login(req.body.email, req.body.password).then(response => res.json(response))
 })
 
 // need be logged after this
 router.use(needAuth)
 
 router.post('/changePassword', (req, res) => {
-  new User().changePwd(req.body.oldpwd, req.body.pwd, req.body.id).then(response => {
-    res.json(response)
-  })
+  new User().changePwd(req.body.oldpwd, req.body.pwd, req.body.id).then(response => res.json(response))
 })
 
-router.post('/:id', (req, res) => {
-  new User().update(req.body.pwd, req.body.id, req.body.user).then(response => {
-    res.json(response)
-  })
+router.post('/:id([a-z0-9+]{16})/', (req, res) => {
+  new User().update(req.body.pwd, req.body.id, req.body.user).then(response => res.json(response))
+})
+
+router.get('/teams', (req, res) => {
+  new User().getTeams(res.locals.user.user_id).then(teams => res.json(teams)).catch(e => console.log(e))
 })
 
 module.exports = router

@@ -14,16 +14,16 @@ class Team extends CRUD {
       })
     })
   }
-  put (entity) {
-    entity[this.prefix + '_id'] = CRUD.generateID()
+  put (team, ownerId) {
+    team[this.prefix + '_id'] = CRUD.generateID()
     return new Promise((resolve, reject) => {
-      this.db.query(`INSERT INTO ${this.table} SET ?`, entity, (err, results) => {
+      this.db.query(`CALL createGroup('${team[this.prefix + '_id']}', '${team.team_name}', '${ownerId}')`, team, (err, results) => {
         if (err) reject(new Error(err.message))
         else {
-          resolve(this.get(entity[this.prefix + '_id']))
+          resolve(this.get(team[this.prefix + '_id']))
         }
       })
-    }).then()
+    })
   }
   getAll () {
     return new Promise((resolve, reject) => {
@@ -46,5 +46,6 @@ class Team extends CRUD {
       })
     })
   }
+
 }
 module.exports = Team

@@ -9,10 +9,12 @@ class User extends CRUD {
     super('user', 'user')
   }
 
-  get (id) {
+  get (idOrEmail) {
+    const attr = idOrEmail.search('@') > 0 ? 'email' : 'id'
     return new Promise((resolve, reject) => {
-      this.db.query(`SELECT user_id, user_email, user_last_name, user_first_name, user_birthday, user_ctry FROM user WHERE user_id = ?`, [id], (err, results) => {
+      this.db.query(`SELECT user_id, user_email, user_last_name, user_first_name, user_birthday, user_ctry FROM user WHERE user_${attr} = ?`, [idOrEmail], (err, results) => {
         if (err) reject(new Error(err.message))
+        else if (results.length < 1) reject(new Error('User not found'))
         else {
           resolve(results[0])
         }
@@ -71,7 +73,7 @@ class User extends CRUD {
     })
   }
   // Verify if password match w/bdd
-  verifyPwd(password, id) {
+  verifyPwd (password, id) {
     return new Promise((resolve, reject) => {
       this.db.query(`SELECT user_password as password FROM ${this.table} WHERE user_id = ?`, [id], (err, result) => {
         if (err) reject(new Error(err.message))
@@ -80,7 +82,6 @@ class User extends CRUD {
             if (err) reject(new Error(err.message))
             else {
               if (valid) {
-                console.log('Verify OK')
                 resolve()
               } else {
                 reject(new Error('Password Mismatch'))
@@ -92,34 +93,61 @@ class User extends CRUD {
     })
   }
   // Verify and Change Password
-  changePwd(oldPassword, newPassword, id) {
+  changePwd (oldPassword, newPassword, id) {
     return new Promise((resolve, reject) => {
-      this.verifyPwd(oldPassword, id).then( () => {
-            bcrypt.hash(newPassword, saltrounds, (err, hash) => {
-                if (err) reject(new Error(err.message))
-                else {
-                    newPassword = hash
-                    this.db.query(`UPDATE ${this.table} SET ${this.prefix}_password = ? WHERE ${this.prefix}_id = ?`, [newPassword, id], (err, result) => {
-                        if (err) reject(new Error(err.message))
-                        else {
-                            resolve({success: 1})
-                        }
-                    })
-                }
+      this.verifyPwd(oldPassword, id).then(() => {
+        bcrypt.hash(newPassword, saltrounds, (err, hash) => {
+          if (err) reject(new Error(err.message))
+          else {
+            newPassword = hash
+            this.db.query(`UPDATE ${this.table} SET ${this.prefix}_password = ? WHERE ${this.prefix}_id = ?`, [newPassword, id], (err, result) => {
+              if (err) reject(new Error(err.message))
+              else {
+                resolve({success: 1})
+              }
             })
+          }
         })
+      })
     })
   }
   // Override update method w/verifyPwd
-  update(password, id, user) {
+  update (password, id, user) {
     return new Promise((resolve, reject) => {
-      this.verifyPwd(password, id).then( () => {
+      this.verifyPwd(password, id).then(() => {
         this.db.query(`UPDATE ${this.table} SET ? WHERE ${this.prefix}_id = ?`, [user, id], (err, result) => {
-            if (err) reject(new Error(err.message))
-            else {
-                resolve(this.get(id))
-            }
+          if (err) reject(new Error(err.message))
+          else {
+            resolve(this.get(id))
+          }
         })
+      })
+    })
+  }
+  getTeams (id) {
+    return new Promise((resolve, reject) => {
+      this.db.query('SELECT DISTINCT t.team_id, team_name, grd_name FROM grade g, team t,grade_team_user as j, user u WHERE t.team_id = j.team_id AND j.user_id = ? AND g.grd_level = j.grd_level AND t.disabled = 0',
+        [id], (err, results) => {
+          if (err) reject(new Error(err.message))
+          else resolve(results)
+        })
+    })
+  }
+  getTeam (id, teamId) {
+    return new Promise((resolve, reject) => {
+      this.db.query('SELECT t.team_id, t.team_name, g.grd_name FROM grade g, team t,grade_team_user as j, user u WHERE t.team_id = j.team_id AND j.user_id = ? AND g.grd_level = j.grd_level AND j.team_id = ?',
+        [id, teamId], (err, results) => {
+          if (err) reject(new Error(err.message))
+          else resolve(results[0])
+        })
+    })
+  }
+  inviteInTeam (id, teamId) {
+    return new Promise((resolve, reject) => {
+      const token = CRUD.generateToken(10)
+      this.db.query('INSERT INTO grade_team_user VALUES(?, ?, ?, ?)', [id, 3, teamId, token], (err) => {
+        if (err) reject(new Error(err.message))
+        else resolve(token)
       })
     })
   }
