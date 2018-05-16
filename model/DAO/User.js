@@ -70,7 +70,7 @@ class User extends CRUD {
       })
     })
   }
-  // Verify if password match w/bdd
+  /* Verify if password match w/bdd */
   verifyPwd(password, id) {
     return new Promise((resolve, reject) => {
       this.db.query(`SELECT user_password as password FROM ${this.table} WHERE user_id = ?`, [id], (err, result) => {
@@ -91,10 +91,11 @@ class User extends CRUD {
       })
     })
   }
-  // Verify and Change Password
-  changePwd(oldPassword, newPassword, id) {
+  /* Verify and Change Password */
+  changePwd(oldPassword, newPassword, rePassword, id) {
     return new Promise((resolve, reject) => {
       this.verifyPwd(oldPassword, id).then( () => {
+        if (newPassword === rePassword) {
             bcrypt.hash(newPassword, saltrounds, (err, hash) => {
                 if (err) reject(new Error(err.message))
                 else {
@@ -107,10 +108,13 @@ class User extends CRUD {
                     })
                 }
             })
-        })
+        } else {
+          reject(new Error('Password Mismatch'))
+        }
+      })
     })
   }
-  // Override update method w/verifyPwd
+  /* Override update method w/verifyPwd */
   update(password, id, user) {
     return new Promise((resolve, reject) => {
       this.verifyPwd(password, id).then( () => {
@@ -120,6 +124,8 @@ class User extends CRUD {
                 resolve(this.get(id))
             }
         })
+      }).catch( (err) => {
+          reject(err)
       })
     })
   }

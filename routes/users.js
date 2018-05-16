@@ -35,15 +35,18 @@ router.post('/login', (req, res) => {
 router.use(needAuth)
 
 router.post('/changePassword', (req, res) => {
-  new User().changePwd(req.body.oldpwd, req.body.pwd, req.body.id).then(response => {
+  new User().changePwd(req.body.oldpwd, req.body.pwd, req.body.repwd, res.locals.user.user_id).then(response => {
     res.json(response)
   })
 })
 
 router.post('/:id', (req, res) => {
-  new User().update(req.body.pwd, req.body.id, req.body.user).then(response => {
+  new User().update(req.body.pwd, res.locals.user.user_id, req.body.user).then(response => {
     res.json(response)
-  })
+  }).catch( (error) => {
+
+      res.json({error: error.message})
+    })
 })
 
 module.exports = router
