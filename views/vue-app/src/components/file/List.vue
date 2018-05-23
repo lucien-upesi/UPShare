@@ -9,7 +9,10 @@
 import axios from 'axios'
 export default {
   name: 'List',
-  props: ['filesType']
+  props: ['filesType'],
+  created () {
+
+  }
 }
 </script>
 
