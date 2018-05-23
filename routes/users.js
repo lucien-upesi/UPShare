@@ -33,7 +33,7 @@ router.post('/changePassword', (req, res) => {
 })
 
 router.post('/:id([a-z0-9+]{16})/', (req, res) => {
-  new User().update(req.body.pwd, req.body.id, req.body.user).then(response => res.json(response))
+  new User().update(req.body.pwd, res.locals.user.user_id, req.body.user).then(response => res.json(response)).catch(err => res.json({error: err.toString()}))
 })
 
 router.get('/teams', (req, res) => {

@@ -19,7 +19,7 @@
 
               v-card-actions
                 v-spacer
-                  Alert(@afterEnter="hideAlert" :alertType="alertType", outlineMode=false, :visibility="alert", durationTime=2000, )
+                  Alert(v-on:done="hideAlert" transitionName="slide-y-transition" :alertType="alertType", outlineMode=false, :visibility="alert", durationTime="2000", )
                     span {{ alertMessage }}
                 v-btn(v-if="isShow" flat, v-on:click='modifyPwd') {{ modifyText }}
                 v-btn(flat, :disabled='!valid' v-on:click='submit') {{ submitText }}
@@ -117,7 +117,6 @@ export default {
     },
 
     hideAlert () {
-      console.log('Je passe par là')
       this.alert = false
     },
 

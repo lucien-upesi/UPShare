@@ -6,8 +6,6 @@
       v-tab-item(v-for='n, index in tabs', :key='index')
         v-card(flat)
           List(:filesType="n.filesType")
-
-
 </template>
 
 <script>
