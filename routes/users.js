@@ -29,7 +29,7 @@ router.post('/login', (req, res) => {
 router.use(needAuth)
 
 router.post('/changePassword', (req, res) => {
-  new User().changePwd(req.body.oldpwd, req.body.pwd, req.body.repwd, res.locals.user.user_id).then(response => res.json(response))
+  new User().changePwd(req.body.oldpwd, req.body.pwd, req.body.repwd, res.locals.user.user_id).then(response => res.json(response)).catch(err => res.json({error: err.toString()}))
 })
 
 router.post('/:id([a-z0-9+]{16})/', (req, res) => {

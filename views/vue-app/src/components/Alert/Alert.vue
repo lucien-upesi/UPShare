@@ -11,6 +11,7 @@ export default {
   props: ['alertType', 'outlineMode', 'visibility', 'transitionName', 'durationTime', 'iconType'],
   methods: {
 
+    /* Set a timeout for transition */
     afterEnter () {
       setTimeout(() => {
         this.$emit('done')

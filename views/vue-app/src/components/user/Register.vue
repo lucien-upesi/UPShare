@@ -19,7 +19,7 @@
 
               v-card-actions
                 v-spacer
-                  Alert(v-on:done="hideAlert" transitionName="slide-y-transition" :alertType="alertType", outlineMode=false, :visibility="alert", durationTime="2000", )
+                  Alert(v-on:done="hideAlert" transitionName="slide-y-transition" :alertType="alertType", outlineMode=false, :visibility="alert", durationTime="2000")
                     span {{ alertMessage }}
                 v-btn(v-if="isShow" flat, v-on:click='modifyPwd') {{ modifyText }}
                 v-btn(flat, :disabled='!valid' v-on:click='submit') {{ submitText }}
@@ -101,7 +101,6 @@ export default {
           }).then(response => {
             if (response.data.error) {
               this.alert = true
-              this.alertType = 'error'
               this.alertMessage = response.data.error
             } else {
               this.alert = true
