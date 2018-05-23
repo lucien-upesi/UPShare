@@ -41,4 +41,8 @@ router.get('/teams', (req, res) => {
   new User().getTeams(res.locals.user.user_id).then(teams => res.json(teams)).catch(e => console.log(e))
 })
 
+router.post('/join', (req, res) => {
+  new User().joinTeam(res.locals.user.user_id, req.body.team_id, req.body.token).then(response => res.json(response)).catch(e => res.json({error: e.toString()}))
+})
+
 module.exports = router

@@ -31,7 +31,7 @@ router.post('/:id([a-z0-9+]{16})/inviteMember', (req, res) => {
       mail.message.to = req.body.user_email
       mail.message.subject = `You have been invite to join ${req.body.team_name}`
       mail.message.html = `<p>Hello,<br>${res.locals.user.user_first_name} ${res.locals.user.user_last_name} invite you to join ${req.body.team_name}<br>
-        To join the team click on the following <a href="${mail.url}/invitation_link/${req.params.id}/${token}">link</a></p>`
+        To join the team click on the following <a href="${mail.url}/invitation/${req.params.id}/${token}">LINK</a></p>`
       return mail.send()
     })
     .then(() => res.json({success: 1}))

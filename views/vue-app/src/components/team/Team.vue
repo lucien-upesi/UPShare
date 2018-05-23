@@ -7,7 +7,7 @@
 
 <script>
 import CrudBoard from '../CrudBoard/CrudBoard.vue'
-import ActionsTeam from '../main/ActionsTeam.vue'
+import ActionsTeam from './ActionsTeam.vue'
 export default {
   name: 'Document',
   components: {

@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    v-btn.mx-0(icon, @click.stop="dialog = true")
+    v-btn.mx-0(icon, @click.stop="dialog = true", v-if="row.grd_name === 'OWNER' || row.grd_name === 'ADMIN'")
       v-icon(color='green') person_add
     v-btn.mx-0(icon, :to="toFiles")
       v-icon(color='blue') folder
@@ -39,11 +39,8 @@ export default {
     addUserToGroup () {
       if (this.$refs.form.validate()) {
         axios.post(`/teams/${this.row.team_id}/inviteMember`, { user_email: this.email, team_name: this.row.team_name}).then(response => {
-          if (response.data.error) {
-            this.errorMsg = response.data.error
-          } else {
-            console.log(response.data)
-          }
+          if (response.data.error) this.errorMsg = response.data.error
+          else this.dialog = false
         })
       }
     }

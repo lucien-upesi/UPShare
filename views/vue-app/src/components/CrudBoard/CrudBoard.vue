@@ -19,9 +19,9 @@
         template(slot='items', slot-scope='props')
           td(v-for="value, index in props.item") {{ value }}
           td.layout.px-0.justify-center
-            v-btn.mx-0(icon='', @click='editItem(props.item)')
+            v-btn.mx-0(icon='', @click='editItem(props.item)' v-if="props.item.grd_name === 'OWNER' || props.item.grd_name === 'ADMIN'")
               v-icon(color='teal') edit
-            v-btn.mx-0(icon='', @click='deleteItem(props.item)')
+            v-btn.mx-0(icon='', @click='deleteItem(props.item)' v-if="props.item.grd_name === 'OWNER'")
               v-icon(color='pink') delete
             component(:is='actions', :row="props.item")
         template(slot='no-data')

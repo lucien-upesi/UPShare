@@ -3,6 +3,7 @@ const saltrounds = 11
 const CRUD = require('./CRUD')
 const jwt = require('jsonwebtoken')
 const strings = require('../../config/strings')
+const util = require('util')
 
 class User extends CRUD {
   constructor () {
@@ -149,6 +150,28 @@ class User extends CRUD {
         if (err) reject(new Error(err.message))
         else resolve(token)
       })
+    })
+  }
+  joinTeam (id, teamId, token) {
+    return new Promise((resolve, reject) => {
+      this.db.query(`UPDATE grade_team_user SET grd_level = 2, inv_token = null WHERE user_id = ? AND team_id = ? AND inv_token = ?`, [id, teamId, token], (err, results) => {
+        if (err) reject(new Error(err.message))
+        else if (results.affectedRows < 1) reject(new Error('Invitation not found'))
+        else resolve({success: 1})
+      })
+    })
+  }
+  getOwnFiles (id) {
+    return new Promise((resolve, reject) => {
+      this.db.query(`SELECT * FROM file WHERE owner_id = ?`, [id], (err, results) => {
+        if (err) reject(new Error(err.message))
+        else resolve(results)
+      })
+    })
+  }
+  getSharedFiles (id) {
+    return new Promise((resolve, reject) => {
+      this.db.query(``)
     })
   }
 }

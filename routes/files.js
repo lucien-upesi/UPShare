@@ -1,9 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const crud = require('./CRUD');
+const express = require('express')
+const router = express.Router()
+const crud = require('./CRUD')
 
+router.use(crud)
 
-router.use(crud);
-
-
-module.exports = router;
+module.exports = router

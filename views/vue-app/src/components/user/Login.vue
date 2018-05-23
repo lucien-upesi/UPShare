@@ -10,11 +10,11 @@
             v-text-field(prepend-icon='email', name='email', label='E-mail', type='email', :rules="emailRules", v-model="email" required)
             v-text-field#password(prepend-icon='lock', name='password', label='Password', type='password', :rules='pwdRules', v-model="pwd" required)
 
-            v-card-actions
-              v-spacer
-              v-btn(flat color='primary', :disabled='!valid' v-on:click='submit') Login
+        v-card-actions
+          v-spacer
+          v-btn(flat color='primary', :disabled='!valid' v-on:click='submit') Login
               // v-btn(flat, color='primary') Forgot Password ?
-            v-alert(type='error', :value='errorMsg' transition="slide-y-transition") {{ errorMsg }}
+          v-alert(type='error', :value='errorMsg' transition="slide-y-transition") {{ errorMsg }}
 </template>
 
 <script>

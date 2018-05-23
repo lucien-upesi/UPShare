@@ -43,7 +43,7 @@ export default {
       items: [
         {title: 'Home', icon: 'dashboard', to: 'home'},
         {title: 'Files', icon: 'insert_drive_file', to: 'files'},
-        {title: 'Groups', icon: 'people', to: 'groups'}
+        {title: 'Teams', icon: 'people', to: 'teams'}
       ],
       /* Sub Drawer menu with settings */
       settings: [
