@@ -19,7 +19,8 @@
 
               v-card-actions
                 v-spacer
-                v-alert(v-model="alert" type='error' dismissible) {{ errorMsg }}
+                  Alert(@afterEnter="hideAlert" :alertType="alertType", outlineMode=false, :visibility="alert", durationTime=2000, )
+                    span {{ alertMessage }}
                 v-btn(v-if="isShow" flat, v-on:click='modifyPwd') {{ modifyText }}
                 v-btn(flat, :disabled='!valid' v-on:click='submit') {{ submitText }}
 </template>
@@ -27,13 +28,17 @@
 <script>
 import states from '../../../../../public/country'
 import axios from 'axios'
+import Alert from '../Alert/Alert'
 export default {
   name: 'Register',
+  components: {Alert},
   data: () => ({
     submitText: '',
     titleSubmitText: '',
-    errorMsg: '',
     alert: false,
+    alertMessage: '',
+    alertType: 'error',
+    alertIcon: '',
     isShow: false,
     valid: true,
     menu: false,
@@ -96,8 +101,12 @@ export default {
           }).then(response => {
             if (response.data.error) {
               this.alert = true
-              this.errorMsg = response.data.error
+              this.alertType = 'error'
+              this.alertMessage = response.data.error
             } else {
+              this.alert = true
+              this.alertType = 'success'
+              this.alertMessage = 'Changes saved !'
               this.$store.state.user = response.data
             }
           }).catch((error) => {
@@ -106,6 +115,12 @@ export default {
         }
       }
     },
+
+    hideAlert () {
+      console.log('Je passe par là')
+      this.alert = false
+    },
+
     modifyPwd () {
       return this.$router.push({name: 'ChangePwd'})
     }
