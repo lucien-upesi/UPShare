@@ -13,7 +13,7 @@
         v-card-actions
           v-spacer
             Alert(v-on:done="hideAlert" transitionName="slide-y-transition" :alertType="alertType", outlineMode=false, :visibility="alert", durationTime="2000")
-              span {{ alertMessage }}
+              span {{ alertMsg }}
           v-btn(flat color='primary', :disabled='!valid' v-on:click='submit') Login
               // v-btn(flat, color='primary') Forgot Password ?
 </template>
@@ -29,7 +29,7 @@ export default {
     menu: false,
     alert: false,
     alertIcon: '',
-    alertMessage: '',
+    alertMsg: '',
     alertType: 'error',
     email: '',
     pwd: '',
@@ -49,17 +49,17 @@ export default {
           if (response.data.hasOwnProperty('error')) {
             if (response.data.error) {
               this.alert = true
-              this.alertMessage = response.data.error
+              this.alertMsg = response.data.error
             }
           } else {
             this.alert = true
             this.alertType = 'success'
-            this.alertMessage = 'Successfully logged !'
+            this.alertMsg = 'Successfully logged !'
             this.$store.commit('login', response.data)
             this.redirectTime(5000)
           }
         }).catch(() => {
-          this.alertMessage = 'Une erreur est survenue'
+          this.alertMsg = 'Une erreur est survenue'
         })
       }
     },

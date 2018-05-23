@@ -14,7 +14,7 @@
             v-card-actions
               v-spacer
                 Alert(v-on:done="hideAlert" transitionName="slide-y-transition" :alertType="alertType", outlineMode=false, :visibility="alert", durationTime="2000")
-                  span {{ alertMessage }}
+                  span {{ alertMsg }}
               v-btn(flat color='primary', :disabled='!valid' v-on:click='submit') Reset
 </template>
 
@@ -29,7 +29,7 @@ export default {
       valid: true,
       alert: false,
       alertIcon: '',
-      alertMessage: '',
+      alertMsg: '',
       alertType: 'error',
       pwd: '',
       id: '',
@@ -54,12 +54,12 @@ export default {
           if (response.data.hasOwnProperty('error')) {
             if (response.data.error) {
               this.alert = true
-              this.alertMessage = response.data.error
+              this.alertMsg = response.data.error
             }
           } else {
             this.alert = true
             this.alertType = 'success'
-            this.alertMessage = 'Password successfully changed !'
+            this.alertMsg = 'Password successfully changed !'
             this.redirectTime(5000)
           }
         }).catch(() => {
