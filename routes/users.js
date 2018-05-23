@@ -22,7 +22,7 @@ router.get('/byJWT/:token', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-  new User().login(req.body.email, req.body.password).then(response => res.json(response))
+  new User().login(req.body.email, req.body.password).then(response => res.json(response)).catch(err => res.json({error: err.toString()}))
 })
 
 // need be logged after this

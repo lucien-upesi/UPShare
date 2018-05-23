@@ -57,10 +57,10 @@ export default {
               this.alertMessage = response.data.error
             }
           } else {
-            console.log('par ici')
             this.alert = true
             this.alertType = 'success'
             this.alertMessage = 'Password successfully changed !'
+            this.redirectTime(5000)
           }
         }).catch(() => {
           this.errorMsg = 'Une erreur est survenue'
@@ -69,6 +69,11 @@ export default {
     },
     hideAlert () {
       this.alert = false
+    },
+    redirectTime (redirectionTime) {
+      setTimeout(() => {
+        this.$router.push('/account')
+      }, Number(redirectionTime))
     }
   }
 }

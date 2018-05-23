@@ -12,21 +12,27 @@
 
         v-card-actions
           v-spacer
+            Alert(v-on:done="hideAlert" transitionName="slide-y-transition" :alertType="alertType", outlineMode=false, :visibility="alert", durationTime="2000")
+              span {{ alertMessage }}
           v-btn(flat color='primary', :disabled='!valid' v-on:click='submit') Login
               // v-btn(flat, color='primary') Forgot Password ?
-          v-alert(type='error', :value='errorMsg' transition="slide-y-transition") {{ errorMsg }}
 </template>
 
 <script>
 import axios from 'axios'
+import Alert from '../Alert/Alert'
 export default {
   name: 'Login',
+  components: {Alert},
   data: () => ({
     valid: true,
     menu: false,
+    alert: false,
+    alertIcon: '',
+    alertMessage: '',
+    alertType: 'error',
     email: '',
     pwd: '',
-    errorMsg: '',
     emailRules: [
       v => !!v || 'E-mail is required',
       v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
@@ -42,16 +48,28 @@ export default {
         axios.post('/users/login', {email: this.email, password: this.pwd}).then(response => {
           if (response.data.hasOwnProperty('error')) {
             if (response.data.error) {
-              this.errorMsg = response.data.error
+              this.alert = true
+              this.alertMessage = response.data.error
             }
           } else {
+            this.alert = true
+            this.alertType = 'success'
+            this.alertMessage = 'Successfully logged !'
             this.$store.commit('login', response.data)
-            this.$router.push('/account')
+            this.redirectTime(5000)
           }
         }).catch(() => {
-          this.errorMsg = 'Une erreur est survenue'
+          this.alertMessage = 'Une erreur est survenue'
         })
       }
+    },
+    hideAlert () {
+      this.alert = false
+    },
+    redirectTime (redirectionTime) {
+      setTimeout(() => {
+        this.$router.push('/account')
+      }, Number(redirectionTime))
     }
   }
 }

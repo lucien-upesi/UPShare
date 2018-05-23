@@ -64,7 +64,7 @@ class User extends CRUD {
                 const user = await this.get(result[0].id)
                 resolve({jwt: token, expire: date.toUTCString(), user: user})
               } else {
-                reject(new Error('invalid password'))
+                reject(new Error('Invalid password or login !'))
               }
             }
           })
