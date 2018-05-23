@@ -3,7 +3,6 @@ const saltrounds = 11
 const CRUD = require('./CRUD')
 const jwt = require('jsonwebtoken')
 const strings = require('../../config/strings')
-const util = require('util')
 
 class User extends CRUD {
   constructor () {
@@ -74,7 +73,7 @@ class User extends CRUD {
     })
   }
   // Verify if password match w/bdd
-  verifyPwd (password, id) {
+  verifyPwd(password, id) {
     return new Promise((resolve, reject) => {
       this.db.query(`SELECT user_password as password FROM ${this.table} WHERE user_id = ?`, [id], (err, result) => {
         if (err) reject(new Error(err.message))
@@ -93,9 +92,27 @@ class User extends CRUD {
       })
     })
   }
-  // Verify and Change Password
+  /* Verify and Change Password */
   changePwd (oldPassword, newPassword, id) {
     return new Promise((resolve, reject) => {
+      this.verifyPwd(oldPassword, id).then( () => {
+        if (newPassword === rePassword) {
+            bcrypt.hash(newPassword, saltrounds, (err, hash) => {
+                if (err) reject(new Error(err.message))
+                else {
+                    newPassword = hash
+                    this.db.query(`UPDATE ${this.table} SET ${this.prefix}_password = ? WHERE ${this.prefix}_id = ?`, [newPassword, id], (err, result) => {
+                        if (err) reject(new Error(err.message))
+                        else {
+                            resolve({success: 1})
+                        }
+                    })
+                }
+            })
+        } else {
+          reject(new Error('Password Mismatch'))
+        }
+      })
       this.verifyPwd(oldPassword, id).then(() => {
         bcrypt.hash(newPassword, saltrounds, (err, hash) => {
           if (err) reject(new Error(err.message))
@@ -122,6 +139,8 @@ class User extends CRUD {
             resolve(this.get(id))
           }
         })
+      }).catch( (err) => {
+          reject(err)
       })
     })
   }

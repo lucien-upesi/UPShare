@@ -23,6 +23,7 @@ export default {
   data: function () {
     return {
       valid: true,
+      alertType: '',
       pwd: '',
       id: '',
       repwd: '',
@@ -48,7 +49,6 @@ export default {
               this.errorMsg = response.data.error
             }
           } else {
-            //this.$store.commit('changePassword', response.data)
             this.$router.push('account')
           }
         }).catch(() => {

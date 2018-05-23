@@ -3,7 +3,7 @@ div
   v-navigation-drawer(class='grey darken-3', width='200', dark, fixed, v-model='drawer', app)
     v-list.pa-1(v-if='user')
       v-list-tile-content
-        v-list-tile-title Welcome, {{ user.user_first_name }} {{ user.user_last_name }}
+        v-list-tile-title.text-xs-center Welcome, {{ user.user_first_name }} {{ user.user_last_name }}
     v-list.pt-0(dense)
       v-divider
       v-list-tile(v-for='item in items', :key='item.title', :to= 'item.to')

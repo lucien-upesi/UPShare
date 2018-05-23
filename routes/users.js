@@ -22,7 +22,6 @@ router.get('/byJWT/:token', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-  console.log(req.body)
   new User().login(req.body.email, req.body.password).then(response => res.json(response))
 })
 
@@ -30,7 +29,7 @@ router.post('/login', (req, res) => {
 router.use(needAuth)
 
 router.post('/changePassword', (req, res) => {
-  new User().changePwd(req.body.oldpwd, req.body.pwd, req.body.id).then(response => res.json(response))
+  new User().changePwd(req.body.oldpwd, req.body.pwd, req.body.repwd, res.locals.user.user_id).then(response => res.json(response))
 })
 
 router.post('/:id([a-z0-9+]{16})/', (req, res) => {

@@ -19,6 +19,8 @@
 
               v-card-actions
                 v-spacer
+                  Alert(@afterEnter="hideAlert" :alertType="alertType", outlineMode=false, :visibility="alert", durationTime=2000, )
+                    span {{ alertMessage }}
                 v-btn(v-if="isShow" flat, v-on:click='modifyPwd') {{ modifyText }}
                 v-btn(flat, :disabled='!valid' v-on:click='submit') {{ submitText }}
 </template>
@@ -26,12 +28,17 @@
 <script>
 import states from '../../../../../public/country'
 import axios from 'axios'
+import Alert from '../Alert/Alert'
 export default {
   name: 'Register',
+  components: {Alert},
   data: () => ({
     submitText: '',
     titleSubmitText: '',
-    resetText: '',
+    alert: false,
+    alertMessage: '',
+    alertType: 'error',
+    alertIcon: '',
     isShow: false,
     valid: true,
     menu: false,
@@ -70,26 +77,50 @@ export default {
     submit () {
       if (this.$refs.form.validate()) {
         if (this.$route.name === 'Register') {
-          axios.put('/users', {user_email: this.email, user_password: this.pwd, user_first_name: this.firstName, user_last_name: this.lastName, user_ctry: this.country, user_birthday: this.birthday})
+          axios.put('/users', {
+            user_email: this.email,
+            user_password: this.pwd,
+            user_first_name: this.firstName,
+            user_last_name: this.lastName,
+            user_ctry: this.country,
+            user_birthday: this.birthday
+          })
             .then(response => {
               console.log(response)
             })
         } else if (this.$route.name === 'Account') {
-          axios.post(`/users/${this.user.user_id}`, { pwd: this.pwd, id: this.user.user_id, user: {user_first_name: this.firstName, user_last_name: this.lastName, user_birthday: this.birthday, user_ctry: this.country, user_email: this.email} }).then(response => {
-            if (response.data.hasOwnProperty('error')) {
-              if (response.data.error) {
-                this.errorMsg = response.data.error
-              }
-            } else {
-              this.$store.state.user = response.data
-              //this.$router.push('Account')
+          axios.post(`/users/${this.user.user_id}`, {
+            pwd: this.pwd,
+            user: {
+              user_first_name: this.firstName,
+              user_last_name: this.lastName,
+              user_birthday: this.birthday,
+              user_ctry: this.country,
+              user_email: this.email
             }
-          }).catch(() => {
-            this.errorMsg = 'Une erreur est survenue'
+          }).then(response => {
+            if (response.data.error) {
+              this.alert = true
+              this.alertType = 'error'
+              this.alertMessage = response.data.error
+            } else {
+              this.alert = true
+              this.alertType = 'success'
+              this.alertMessage = 'Changes saved !'
+              this.$store.state.user = response.data
+            }
+          }).catch((error) => {
+            this.errorMsg = error
           })
         }
       }
     },
+
+    hideAlert () {
+      console.log('Je passe par là')
+      this.alert = false
+    },
+
     modifyPwd () {
       return this.$router.push({name: 'ChangePwd'})
     }
