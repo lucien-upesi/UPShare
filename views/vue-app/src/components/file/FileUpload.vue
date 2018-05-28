@@ -3,7 +3,7 @@
     form(enctype="multipart/form-data")
       label(for='file_input')
         v-icon(large) {{ icon }}
-      input(v-if='!hidden', type="file", accept="*", name="file_uploaded", @change="fileChange", ref="file_input", :multiple='multiple')
+      input(v-if='!hidden', type="file", accept="*", name="files", @change="fileChange", ref="file_input", :multiple='multiple')
       small {{ help }}
       slot
       div(v-if='active')
@@ -51,11 +51,11 @@ export default {
     },
     send () {
       const formdata = new FormData()
+      formdata.append('extras', JSON.stringify(this.extras))
       for (let i = 0; i < this.files.length; i++) {
         console.log(this.files[i])
         formdata.append('files[]', this.files[i])
       }
-      formdata.append('extras', JSON.stringify(this.extras))
       const self = this
 
       axios.put(this.endpoint, formdata, {
