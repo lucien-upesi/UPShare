@@ -22,18 +22,18 @@ router.get('/byJWT/:token', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-  new User().login(req.body.email, req.body.password).then(response => res.json(response))
+  new User().login(req.body.email, req.body.password).then(response => res.json(response)).catch(err => res.json({error: err.toString()}))
 })
 
 // need be logged after this
 router.use(needAuth)
 
 router.post('/changePassword', (req, res) => {
-  new User().changePwd(req.body.oldpwd, req.body.pwd, req.body.repwd, res.locals.user.user_id).then(response => res.json(response))
+  new User().changePwd(req.body.oldpwd, req.body.pwd, req.body.repwd, res.locals.user.user_id).then(response => res.json(response)).catch(err => res.json({error: err.toString()}))
 })
 
 router.post('/:id([a-z0-9+]{16})/', (req, res) => {
-  new User().update(req.body.pwd, req.body.id, req.body.user).then(response => res.json(response))
+  new User().update(req.body.pwd, res.locals.user.user_id, req.body.user).then(response => res.json(response)).catch(err => res.json({error: err.toString()}))
 })
 
 router.get('/teams', (req, res) => {

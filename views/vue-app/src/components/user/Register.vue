@@ -19,8 +19,8 @@
 
               v-card-actions
                 v-spacer
-                  Alert(@afterEnter="hideAlert" :alertType="alertType", outlineMode=false, :visibility="alert", durationTime=2000, )
-                    span {{ alertMessage }}
+                  Alert(v-on:done="hideAlert" transitionName="slide-y-transition" :alertType="alertType", outlineMode=false, :visibility="alert", durationTime="2000")
+                    span {{ alertMsg }}
                 v-btn(v-if="isShow" flat, v-on:click='modifyPwd') {{ modifyText }}
                 v-btn(flat, :disabled='!valid' v-on:click='submit') {{ submitText }}
 </template>
@@ -36,7 +36,7 @@ export default {
     submitText: '',
     titleSubmitText: '',
     alert: false,
-    alertMessage: '',
+    alertMsg: '',
     alertType: 'error',
     alertIcon: '',
     isShow: false,
@@ -101,12 +101,11 @@ export default {
           }).then(response => {
             if (response.data.error) {
               this.alert = true
-              this.alertType = 'error'
-              this.alertMessage = response.data.error
+              this.alertMsg = response.data.error
             } else {
               this.alert = true
               this.alertType = 'success'
-              this.alertMessage = 'Changes saved !'
+              this.alertMsg = 'Changes saved !'
               this.$store.state.user = response.data
             }
           }).catch((error) => {
@@ -117,7 +116,6 @@ export default {
     },
 
     hideAlert () {
-      console.log('Je passe par là')
       this.alert = false
     },
 

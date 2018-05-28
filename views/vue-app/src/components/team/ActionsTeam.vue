@@ -38,7 +38,7 @@ export default {
   methods: {
     addUserToGroup () {
       if (this.$refs.form.validate()) {
-        axios.post(`/teams/${this.row.team_id}/inviteMember`, { user_email: this.email, team_name: this.row.team_name}).then(response => {
+        axios.post(`/teams/${this.row.team_id}/inviteMember`, {user_email: this.email, team_name: this.row.team_name}).then(response => {
           if (response.data.error) this.errorMsg = response.data.error
           else this.dialog = false
         })

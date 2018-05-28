@@ -1,22 +1,21 @@
 <template lang="pug">
   div
-    transition(v-on:after-enter="afterEnter" :duration='durationTime')
-      v-alert(:type='alertType' :outline='outlineMode' :icon='iconType' :value="visibility" :mode="modeTransition")
+    transition(v-on:after-enter="afterEnter" :name="transitionName" :duration='durationTime')
+      v-alert(v-if="visibility" :type='alertType' :outline='outlineMode' :icon='iconType' :value="visibility")
         slot
 </template>
 
 <script>
 export default {
   name: 'Alert',
-  props: ['alertType', 'outlineMode', 'visibility', 'transitionName', 'durationTime', 'modeTransition', 'iconType'],
+  props: ['alertType', 'outlineMode', 'visibility', 'transitionName', 'durationTime', 'iconType'],
   methods: {
 
-    afterEnter: function () {
-      console.log('before timeout')
-      setTimeout(function () {
-        console.log('before emit')
+    /* Set a timeout for transition */
+    afterEnter () {
+      setTimeout(() => {
         this.$emit('done')
-      }, this.durationTime)
+      }, Number(this.durationTime))
     }
   }
 }

@@ -13,17 +13,24 @@
 
             v-card-actions
               v-spacer
+                Alert(v-on:done="hideAlert" transitionName="slide-y-transition" :alertType="alertType", outlineMode=false, :visibility="alert", durationTime="2000")
+                  span {{ alertMsg }}
               v-btn(flat color='primary', :disabled='!valid' v-on:click='submit') Reset
 </template>
 
 <script>
 import axios from 'axios'
+import Alert from '../Alert/Alert'
 export default {
   name: 'ChangePwd',
+  components: {Alert},
   data: function () {
     return {
       valid: true,
-      alertType: '',
+      alert: false,
+      alertIcon: '',
+      alertMsg: '',
+      alertType: 'error',
       pwd: '',
       id: '',
       repwd: '',
@@ -43,18 +50,30 @@ export default {
   methods: {
     submit () {
       if (this.$refs.form.validate()) {
-        axios.post('/users/changePassword', {oldpwd: this.oldpwd, pwd: this.pwd, id: this.user.user_id}).then(response => {
+        axios.post('/users/changePassword', {oldpwd: this.oldpwd, pwd: this.pwd, repwd: this.repwd, id: this.user.user_id}).then(response => {
           if (response.data.hasOwnProperty('error')) {
             if (response.data.error) {
-              this.errorMsg = response.data.error
+              this.alert = true
+              this.alertMsg = response.data.error
             }
           } else {
-            this.$router.push('account')
+            this.alert = true
+            this.alertType = 'success'
+            this.alertMsg = 'Password successfully changed !'
+            this.redirectTime(5000)
           }
         }).catch(() => {
           this.errorMsg = 'Une erreur est survenue'
         })
       }
+    },
+    hideAlert () {
+      this.alert = false
+    },
+    redirectTime (redirectionTime) {
+      setTimeout(() => {
+        this.$router.push('/account')
+      }, Number(redirectionTime))
     }
   }
 }
