@@ -68,7 +68,7 @@ export default {
         this.alertType = 'info'
         this.alertMsg = 'Please enter your email !'
       } else {
-        axios.put('/users/sendConfirmation', {email: this.email}).then(response => {
+        axios.post('/users/sendConfirmation', {email: this.email}).then(response => {
           if (response.data.error) {
             this.alert = true
             this.alertMsg = response.data.error

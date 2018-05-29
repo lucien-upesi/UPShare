@@ -48,7 +48,7 @@ export default {
   methods: {
     submit () {
       if (this.$refs.form.validate()) {
-        axios.post(`/users/reset`, {email: this.email, pwd: this.pwd, repwd: this.repwd, token: this.$route.params.token}).then(response => {
+        axios.post(`/users/resetPassword`, {email: this.email, pwd: this.pwd, repwd: this.repwd, token: this.$route.params.token}).then(response => {
           if (response.data.hasOwnProperty('error')) {
             if (response.data.error) {
               this.alert = true

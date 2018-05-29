@@ -18,20 +18,20 @@ router.put('/', (req, res) => {
 
 // Router resetPassword
 router.post('/sendConfirmation', (req, res) => {
-    new User().insertToken(req.body.email)
-        .then(token => {
-            mail.message.to = req.body.email
-            mail.message.subject = `You have been invite to reset your password !`
-            mail.message.html = `<p>Hello,<br>A password reset has been requested for your account<br>
+  new User().insertToken(req.body.email)
+    .then(token => {
+      mail.message.to = req.body.email
+      mail.message.subject = `You have been invite to reset your password !`
+      mail.message.html = `<p>Hello,<br>A password reset has been requested for your account<br>
         To reset your password click on the following <a href="${mail.url}/reset/${token}">LINK</a></p>`
-            return mail.send()
-        })
-        .then(() => res.json({success: 1}))
-        .catch(e => console.log(e))
+      return mail.send()
+    })
+    .then(() => res.json({success: 1}))
+    .catch(e => console.log(e))
 })
 
 router.post('/resetPassword', (req, res) => {
-    new User().resetPassword(req.body.email, req.body.token, req.body.pwd, req.body.repwd).then(response => res.json(response)).catch(err => res.json({error: err.toString()}))
+  new User().resetPassword(req.body.email, req.body.token, req.body.pwd, req.body.repwd).then(response => res.json(response)).catch(err => res.json({error: err.toString()}))
 })
 
 // router.use(crud)
