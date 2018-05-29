@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
     })
   },
   filename: function (req, file, cb) {
-    cb(null, crypto.createHash('md5').update(Math.random().toString()).digest('hex') + file.originalname)
+    cb(null, crypto.createHash('md5').update(Math.random().toString()).digest('hex') + file.originalname.substring(file.originalname.lastIndexOf('.')))
   }
 })
 
@@ -28,24 +28,33 @@ const unauthType = ['ini']
 
 router.use(needAuth)
 
-router.put('/', upload.array('files[]'), (req, res) => {
+router.put('/', upload.array('files[]'), async (req, res) => {
   const rejectedFiles = []
+  const addedFiles = []
   for (let i = 0; i < req.files.length; i++) {
-    let ext = req.files[i].originalname.lastIndexOf('.') + 1
-    if (unauthType.indexOf(req.files[i].originalname.substring(ext)) > -1) {
+    let ext = req.files[i].originalname.substring(req.files[i].originalname.lastIndexOf('.') + 1)
+    if (unauthType.indexOf(ext) > -1) {
       rejectedFiles.push(req.files[i])
     } else {
-      // new File().put({
-      //   file_type: ext,
-      //   owner_id: res.locals.user.user_id,
-      //   file_folder: 0,
-      //   file_deleted: 0
-      // })
+      let file = await new File().put({
+        file_type: ext,
+        owner_id: res.locals.user.user_id,
+        file_name: req.files[i].originalname,
+        file_folder: 0
+      })
+      if (file.file_id) addedFiles.push(file)
+      else rejectedFiles.push(req.files[i])
     }
   }
-  if (rejectedFiles.length > 0) {
-    res.json({rejectedFiles: rejectedFiles.length, files: rejectedFiles})
-  } else res.json({success: 1})
+  res.json({success: addedFiles, error: rejectedFiles})
+})
+
+router.put('/folder', (req, res) => {
+  new File().put({
+    owner_id: res.locals.user.user_id,
+    file_name: req.body.file_name,
+    file_folder: 1
+  }).then(folder => res.json(folder)).catch(e => res.json({error: e.toString()}))
 })
 
 module.exports = router

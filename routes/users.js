@@ -44,4 +44,8 @@ router.post('/join', (req, res) => {
   new User().joinTeam(res.locals.user.user_id, req.body.team_id, req.body.token).then(response => res.json(response)).catch(e => res.json({error: e.toString()}))
 })
 
+router.get('/ownFiles', (req, res) => {
+  new User().getOwnFiles(res.locals.user.user_id).then(files => res.send(files)).catch(e => res.json({error: e.toString()}))
+})
+
 module.exports = router

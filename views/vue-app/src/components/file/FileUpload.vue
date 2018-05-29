@@ -39,7 +39,6 @@ export default {
       this.active = !this.active
       if (e.target.files[0]) {
         this.files = e.target.files
-        console.log(this.files)
       }
     },
     reset () {
@@ -53,7 +52,6 @@ export default {
       const formdata = new FormData()
       formdata.append('extras', JSON.stringify(this.extras))
       for (let i = 0; i < this.files.length; i++) {
-        console.log(this.files[i])
         formdata.append('files[]', this.files[i])
       }
       const self = this

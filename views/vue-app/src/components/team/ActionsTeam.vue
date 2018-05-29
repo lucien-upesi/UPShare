@@ -13,7 +13,7 @@
             v-text-field(prepend-icon='email', label='E-mail', type='email', :rules="emailRules", v-model="email")
         v-card-actions
           v-spacer
-          v-btn(color='red', flat, @click.stop='dialog = false') Close
+          v-btn(color='red', flat, @click.stop='close') Close
           v-btn(color='green', flat, @click.stop='addUserToGroup') Send
 </template>
 
@@ -39,10 +39,15 @@ export default {
     addUserToGroup () {
       if (this.$refs.form.validate()) {
         axios.post(`/teams/${this.row.team_id}/inviteMember`, {user_email: this.email, team_name: this.row.team_name}).then(response => {
+          this.email = ''
           if (response.data.error) this.errorMsg = response.data.error
           else this.dialog = false
         })
       }
+    },
+    close () {
+      this.dialog = false
+      this.email = ''
     }
   }
 }
