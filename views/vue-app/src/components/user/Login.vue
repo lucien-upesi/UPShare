@@ -15,7 +15,7 @@
             Alert(v-on:done="hideAlert" transitionName="slide-y-transition" :alertType="alertType", outlineMode=false, :visibility="alert", durationTime="2000")
               span {{ alertMsg }}
           v-btn(flat color='primary', :disabled='!valid' v-on:click='submit') Login
-              // v-btn(flat, color='primary') Forgot Password ?
+          v-btn(flat, color='primary', v-on:click='reset') Forgot Password ?
 </template>
 
 <script>
@@ -42,7 +42,6 @@ export default {
     ]
   }),
   methods: {
-
     submit () {
       if (this.$refs.form.validate()) {
         axios.post('/users/login', {email: this.email, password: this.pwd}).then(response => {
@@ -60,6 +59,25 @@ export default {
           }
         }).catch(() => {
           this.alertMsg = 'Une erreur est survenue'
+        })
+      }
+    },
+    reset () {
+      if (this.email === '') {
+        this.alert = true
+        this.alertType = 'info'
+        this.alertMsg = 'Please enter your email !'
+      } else {
+        axios.put('/users/sendConfirmation', {email: this.email}).then(response => {
+          if (response.data.error) {
+            this.alert = true
+            this.alertMsg = response.data.error
+          } else {
+            console.log('email OK')
+            this.alert = true
+            this.alertType = 'info'
+            this.alertMsg = 'Email sent, Please check your email box !'
+          }
         })
       }
     },
