@@ -33,7 +33,7 @@ export default new Router({
       component: Login
     },
     {
-      path: '/resetPassword/:token',
+      path: '/reset/:token',
       name: 'ResetPwd',
       component: ResetPwd,
       props: true
