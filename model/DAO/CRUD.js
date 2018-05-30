@@ -63,7 +63,7 @@ class CRUD {
     return crypto.randomBytes(8).toString('hex')
   }
   static generateToken (length) {
-    return crypto.randomBytes(length).toString('base64').substring(0, length - 1)
+    return crypto.randomBytes(length).toString('hex').substring(0, length - 1)
   }
 }
 module.exports = CRUD

@@ -73,7 +73,7 @@ class User extends CRUD {
     })
   }
   /* Verify if password match w/bdd */
-  verifyPwd(password, id) {
+  verifyPwd (password, id) {
     return new Promise((resolve, reject) => {
       this.db.query(`SELECT user_password as password FROM ${this.table} WHERE user_id = ?`, [id], (err, result) => {
         if (err) reject(new Error(err.message))
@@ -95,20 +95,20 @@ class User extends CRUD {
   /* Verify and Change Password */
   changePwd (oldPassword, newPassword, rePassword, id) {
     return new Promise((resolve, reject) => {
-      this.verifyPwd(oldPassword, id).then( () => {
+      this.verifyPwd(oldPassword, id).then(() => {
         if (newPassword === rePassword) {
-            bcrypt.hash(newPassword, saltrounds, (err, hash) => {
+          bcrypt.hash(newPassword, saltrounds, (err, hash) => {
+            if (err) reject(new Error(err.message))
+            else {
+              newPassword = hash
+              this.db.query(`UPDATE ${this.table} SET ${this.prefix}_password = ? WHERE ${this.prefix}_id = ?`, [newPassword, id], (err, results) => {
                 if (err) reject(new Error(err.message))
                 else {
-                    newPassword = hash
-                    this.db.query(`UPDATE ${this.table} SET ${this.prefix}_password = ? WHERE ${this.prefix}_id = ?`, [newPassword, id], (err, results) => {
-                        if (err) reject(new Error(err.message))
-                        else {
-                            resolve({success: 1})
-                        }
-                    })
+                  resolve({success: 1})
                 }
-            })
+              })
+            }
+          })
         } else {
           reject(new Error('Password Mismatch'))
         }
@@ -127,8 +127,8 @@ class User extends CRUD {
             resolve(this.get(id))
           }
         })
-      }).catch( (err) => {
-          reject(err)
+      }).catch((err) => {
+        reject(err)
       })
     })
   }
@@ -156,24 +156,24 @@ class User extends CRUD {
     })
   }
   /* ResetPassword w/ Token */
-  resetPassword(email, token, newPassword, rePassword) {
+  resetPassword (email, token, newPassword, rePassword) {
     return new Promise((resolve, reject) => {
-        this.verifyToken(token, email).then(() => {
-            if (newPassword === rePassword) {
-                bcrypt.hash(newPassword, saltrounds, (err, hash) => {
-                    if (err) reject(new Error(err.message))
-                    else {
-                        newPassword = hash
-                        this.db.query(`UPDATE ${this.table} SET ${this.prefix}_password = ?, reset_token = null WHERE ${this.prefix}_email = ?`, [newPassword, email], (err) => {
-                            if (err) reject(new Error(err.message))
-                            else resolve({success: 1})
-                        })
-                    }
-                })
-            } else reject(new Error('Password Mismatch'))
-        }).catch((err) => {
-            reject(err)
-        })
+      this.verifyToken(token, email).then(() => {
+        if (newPassword === rePassword) {
+          bcrypt.hash(newPassword, saltrounds, (err, hash) => {
+            if (err) reject(new Error(err.message))
+            else {
+              newPassword = hash
+              this.db.query(`UPDATE ${this.table} SET ${this.prefix}_password = ?, reset_token = null WHERE ${this.prefix}_email = ?`, [newPassword, email], (err) => {
+                if (err) reject(new Error(err.message))
+                else resolve({success: 1})
+              })
+            }
+          })
+        } else reject(new Error('Password Mismatch'))
+      }).catch((err) => {
+        reject(err)
+      })
     })
   }
   getTeams (id) {
