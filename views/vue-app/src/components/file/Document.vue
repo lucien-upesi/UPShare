@@ -20,10 +20,10 @@
         v-tab-item(v-for='n, index in tabs', :key='index')
           div(@contextmenu="show")
             List(:filesType="n.filesType")
-            v-menu(v-model='showMenu', :position-x='x', :position-y='y', offset-y, absolute)
-              v-list
-                v-list-tile(v-for='(item, index) in items', :key='index', @click='actions(item.action)')
-                  v-list-tile-title {{ item.title }}
+      v-menu(v-model='showMenu', :position-x='x', :position-y='y', offset-y, absolute)
+        v-list
+          v-list-tile(v-for='(item, index) in items', :key='index', @click='actions(item.action)')
+            v-list-tile-title {{ item.title }}
 </template>
 
 <script>

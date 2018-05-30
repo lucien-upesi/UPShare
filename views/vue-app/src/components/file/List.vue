@@ -1,8 +1,12 @@
 <template lang="pug">
   div
     h2 Dossiers
-    h2 Fichiers
+    div(v-for="file in ownFiles", v-if="file.file_folder === 1")
+      h4 {{file.file_name}}
 
+    h2 Fichiers
+    div(v-for="file in ownFiles" v-if="file.file_folder === 0")
+      h4 {{ file.file_name }}
 </template>
 
 <script>
