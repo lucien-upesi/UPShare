@@ -6,7 +6,7 @@ class File extends CRUD {
     super('file', 'file')
   }
   put (file) {
-    file.file_id = CRUD.generateID()
+    if (!file.file_id) file.file_id = CRUD.generateID()
     file.file_url = `${strings.host}/document/${file.file_id}`
     const date = new Date().toISOString().split('T')[0]
     file.file_created_at = date

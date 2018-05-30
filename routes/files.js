@@ -18,7 +18,8 @@ const storage = multer.diskStorage({
     })
   },
   filename: function (req, file, cb) {
-    cb(null, crypto.createHash('md5').update(Math.random().toString()).digest('hex') + file.originalname.substring(file.originalname.lastIndexOf('.')))
+    file.file_id = crypto.randomBytes(8).toString('hex')
+    cb(null, file.file_id + file.originalname.substring(file.originalname.lastIndexOf('.')))
   }
 })
 
@@ -37,6 +38,7 @@ router.put('/', upload.array('files[]'), async (req, res) => {
       rejectedFiles.push(req.files[i])
     } else {
       let file = await new File().put({
+        file_id: req.files[i].file_id,
         file_type: ext,
         owner_id: res.locals.user.user_id,
         file_name: req.files[i].originalname,
