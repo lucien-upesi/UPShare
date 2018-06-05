@@ -2,7 +2,7 @@
   v-app
     Navigation(app)
     v-content
-      v-container(fluid, :class="{'pa-0': $vuetify.breakpoint.smAndDown}")
+      v-container(fill-height, fluid, :class="{'pa-0': $vuetify.breakpoint.smAndDown}")
         router-view(:key="$route.name")
     v-footer(app)
 </template>

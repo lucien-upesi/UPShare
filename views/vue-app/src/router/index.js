@@ -11,6 +11,7 @@ import Team from '@/components/team/Team'
 import Help from '@/components/main/Help'
 import About from '@/components/main/About'
 import Invitation from '@/components/team/Invitation'
+import Files from '@/components/file/Files'
 import Document from '@/components/file/Document'
 Vue.use(Router)
 
@@ -47,7 +48,7 @@ export default new Router({
     {
       path: '/files',
       name: 'Files',
-      component: Document,
+      component: Files,
       meta: {requiresAuth: true}
     },
     {
@@ -76,6 +77,12 @@ export default new Router({
       path: '/invitation/:teamId/:token',
       name: 'Invitation',
       component: Invitation
+    },
+    {
+      path: '/document/:id',
+      name: 'Document',
+      component: Document,
+      props: true
     }
   ]
 })

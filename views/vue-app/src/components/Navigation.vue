@@ -41,15 +41,15 @@ export default {
       drawer: null,
       /* List of tile in Drawer Menu */
       items: [
-        {title: 'Home', icon: 'dashboard', to: 'home'},
-        {title: 'Files', icon: 'insert_drive_file', to: 'files'},
-        {title: 'Teams', icon: 'people', to: 'teams'}
+        {title: 'Home', icon: 'dashboard', to: '/home'},
+        {title: 'Files', icon: 'insert_drive_file', to: '/files'},
+        {title: 'Teams', icon: 'people', to: '/teams'}
       ],
       /* Sub Drawer menu with settings */
       settings: [
-        {title: 'Settings', icon: 'settings', to: 'account'},
-        {title: 'Help', icon: 'help', to: 'help'},
-        {title: 'About', icon: 'question_answer', to: 'about'}
+        {title: 'Settings', icon: 'settings', to: '/account'},
+        {title: 'Help', icon: 'help', to: '/help'},
+        {title: 'About', icon: 'question_answer', to: '/about'}
       ]
     }
   },

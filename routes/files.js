@@ -59,4 +59,11 @@ router.put('/folder', (req, res) => {
   }).then(folder => res.json(folder)).catch(e => res.json({error: e.toString()}))
 })
 
+router.get('/:id([a-z0-9+]{16})', (req, res) => {
+  new File().get(req.params.id).then(file => {
+    const src = `${strings.uploadPath}/${res.locals.user.user_id}/${file.file_id}.${file.file_type}`
+    res.sendFile(src)
+  })
+})
+
 module.exports = router

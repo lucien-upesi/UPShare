@@ -1,12 +1,14 @@
 <template lang="pug">
   div
     h2 Dossiers
-    div(v-for="file in ownFiles", v-if="file.file_folder === 1")
-      h4 {{file.file_name}}
+    div
+      v-btn(v-for="file in ownFiles", :key="file.file_id" v-if="file.file_folder === 1" flat :to='"/document/"+file.file_id')
+        v-icon folder
+        | {{file.file_name}}
 
     h2 Fichiers
-    div(v-for="file in ownFiles" v-if="file.file_folder === 0")
-      h4 {{ file.file_name }}
+    div
+      v-btn(v-for="file in ownFiles", :key="file.file_id" v-if="file.file_folder === 0" flat :to='"/document/"+file.file_id') {{file.file_name}}
 </template>
 
 <script>
@@ -18,9 +20,11 @@ export default {
     ownFiles: false
   }),
   created () {
-    axios.get('/users/ownFiles').then(response => {
-      this.ownFiles = response.data
-    })
+    if (this.filesType === 'own') {
+      axios.get('/users/ownFiles').then(response => {
+        this.ownFiles = response.data
+      })
+    }
   }
 }
 </script>

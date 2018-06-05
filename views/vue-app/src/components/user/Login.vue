@@ -55,7 +55,7 @@ export default {
             this.alertType = 'success'
             this.alertMsg = 'Successfully logged !'
             this.$store.commit('login', response.data)
-            this.redirectTime(5000)
+            this.redirectTime(2000)
           }
         }).catch(() => {
           this.alertMsg = 'Une erreur est survenue'
