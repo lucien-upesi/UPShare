@@ -9,13 +9,19 @@
           v-form#form(v-model="valid" ref="form" lazy-validation)
             v-text-field(prepend-icon='email', name='email', label='E-mail', type='email', :rules="emailRules", v-model="email" required)
             v-text-field#password(prepend-icon='lock', name='password', label='Password', type='password', :rules='pwdRules', v-model="pwd" required)
-
+          transition(name='slide-y-transition')
+            v-form.d-flex(v-if='!hidden')
+              v-flex(xs10)
+                v-text-field(prepend-icon='email' name='forgotEmail' label='Please enter your e-mail' v-model='emailForg')
+              v-flex(xs2)
+                v-btn(flat, color='primary', v-on:click='reset') OK
         v-card-actions
           v-spacer
             Alert(v-on:done="hideAlert" transitionName="slide-y-transition" :alertType="alertType", outlineMode=false, :visibility="alert", durationTime="2000")
               span {{ alertMsg }}
           v-btn(flat color='primary', :disabled='!valid' v-on:click='submit') Login
-          v-btn(flat, color='primary', v-on:click='reset') Forgot Password ?
+          //v-btn(flat, color='primary', v-on:click='reset') Forgot Password ?
+          v-btn(flat, color='primary', v-on:click='hidden=!hidden') Forgot Password ?
 </template>
 
 <script>
@@ -26,12 +32,14 @@ export default {
   components: {Alert},
   data: () => ({
     valid: true,
+    hidden: true,
     menu: false,
     alert: false,
     alertIcon: '',
     alertMsg: '',
     alertType: 'error',
     email: '',
+    emailForg: '',
     pwd: '',
     emailRules: [
       v => !!v || 'E-mail is required',
@@ -42,6 +50,14 @@ export default {
     ]
   }),
   methods: {
+    hideAlert () {
+      this.alert = false
+    },
+    redirectTime (redirectionTime) {
+      setTimeout(() => {
+        this.$router.push('/account')
+      }, Number(redirectionTime))
+    },
     submit () {
       if (this.$refs.form.validate()) {
         axios.post('/users/login', {email: this.email, password: this.pwd}).then(response => {
@@ -57,37 +73,21 @@ export default {
             this.$store.commit('login', response.data)
             this.redirectTime(2000)
           }
-        }).catch(() => {
-          this.alertMsg = 'Une erreur est survenue'
         })
       }
     },
     reset () {
-      if (this.email === '') {
-        this.alert = true
-        this.alertType = 'info'
-        this.alertMsg = 'Please enter your email !'
-      } else {
-        axios.post('/users/sendConfirmation', {email: this.email}).then(response => {
-          if (response.data.error) {
-            this.alert = true
-            this.alertMsg = response.data.error
-          } else {
-            console.log('email OK')
-            this.alert = true
-            this.alertType = 'info'
-            this.alertMsg = 'Email sent, Please check your email box !'
-          }
-        })
-      }
-    },
-    hideAlert () {
-      this.alert = false
-    },
-    redirectTime (redirectionTime) {
-      setTimeout(() => {
-        this.$router.push('/account')
-      }, Number(redirectionTime))
+      axios.post('/users/sendConfirmation', {email: this.emailForg}).then(response => {
+        if (response.data.error) {
+          this.alert = true
+          this.alertMsg = response.data.error
+        } else {
+          console.log('email OK')
+          this.alert = true
+          this.alertType = 'info'
+          this.alertMsg = 'Email sent, Please check your email box !'
+        }
+      })
     }
   }
 }

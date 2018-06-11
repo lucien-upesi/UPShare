@@ -142,37 +142,24 @@ class User extends CRUD {
       })
     })
   }
-  /* Verify token */
-  verifyToken (token, email) {
-    return new Promise((resolve, reject) => {
-      this.db.query(`SELECT reset_token as token FROM ${this.table} WHERE ${this.prefix}_email = ?`, [email], (err, results) => {
-        if (err) reject(new Error(err.message))
-        else {
-          if (results.length > 0 && token === results[0].token) {
-            resolve()
-          } else reject(new Error('Token Error'))
-        }
-      })
-    })
-  }
   /* ResetPassword w/ Token */
-  resetPassword (email, token, newPassword, rePassword) {
+  resetPassword(token, newPassword, rePassword) {
     return new Promise((resolve, reject) => {
-      this.verifyToken(token, email).then(() => {
-        if (newPassword === rePassword) {
+      this.db.query(`SELECT reset_token as token, ${this.prefix}_email as email FROM ${this.table} WHERE reset_token = ?`, [token], (err, results) => {
+        if (err) reject(new Error(err.message))
+        else if (results.length > 0 && newPassword === rePassword) {
           bcrypt.hash(newPassword, saltrounds, (err, hash) => {
             if (err) reject(new Error(err.message))
             else {
               newPassword = hash
+              let email = results[0].email
               this.db.query(`UPDATE ${this.table} SET ${this.prefix}_password = ?, reset_token = null WHERE ${this.prefix}_email = ?`, [newPassword, email], (err) => {
-                if (err) reject(new Error(err.message))
-                else resolve({success: 1})
+                  if (err) reject(new Error(err.message))
+                  else resolve({success: 1})
               })
             }
           })
-        } else reject(new Error('Password Mismatch'))
-      }).catch((err) => {
-        reject(err)
+        } else reject(new Error('Token Error'))
       })
     })
   }

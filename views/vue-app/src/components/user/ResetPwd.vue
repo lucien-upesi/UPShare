@@ -7,14 +7,13 @@
           v-spacer
         v-card-text
           v-form#form(v-model="valid" ref="form" lazy-validation)
-            v-text-field(prepend-icon='email', name='email', label='E-mail', type='email', :rules="emailRules", v-model="email" required)
             v-text-field(prepend-icon='lock', name='password', label='New Password', type='password', :rules="pwdRules", v-model="pwd" required)
             v-text-field#password(prepend-icon='lock', name='repassword', label='Confirm', type='password', :rules='pwdRules', v-model="repwd" required)
 
             v-card-actions
               v-spacer
-              Alert(v-on:done="hideAlert" transitionName="slide-y-transition" :alertType="alertType", outlineMode=false, :visibility="alert", durationTime="2000")
-                span {{ alertMsg }}
+                Alert(v-on:done="hideAlert" transitionName="slide-y-transition" :alertType="alertType", outlineMode=false, :visibility="alert", durationTime="2000")
+                  span {{ alertMsg }}
               v-btn(flat color='primary', :disabled='!valid' v-on:click='submit') Reset
 </template>
 
@@ -48,7 +47,7 @@ export default {
   methods: {
     submit () {
       if (this.$refs.form.validate()) {
-        axios.post(`/users/resetPassword`, {email: this.email, pwd: this.pwd, repwd: this.repwd, token: this.$route.params.token}).then(response => {
+        axios.post(`/users/resetPassword`, {token: this.$route.params.token, pwd: this.pwd, repwd: this.repwd}).then(response => {
           if (response.data.hasOwnProperty('error')) {
             if (response.data.error) {
               this.alert = true
@@ -58,7 +57,7 @@ export default {
             this.alert = true
             this.alertType = 'success'
             this.alertMsg = 'Password successfully changed !'
-            this.redirectTime(5000)
+            this.redirectTime(3000)
           }
         }).catch(() => {
           this.errorMsg = 'Une erreur est survenue'
