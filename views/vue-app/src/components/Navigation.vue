@@ -41,8 +41,8 @@ export default {
       drawer: null,
       /* List of tile in Drawer Menu */
       items: [
-        {title: 'Home', icon: 'dashboard', to: 'home'},
-        {title: 'Files', icon: 'insert_drive_file', to: 'files'},
+        {title: 'Home', icon: 'home', to: 'home'},
+        {title: 'Dashboard', icon: 'insert_drive_file', to: 'files'},
         {title: 'Teams', icon: 'people', to: 'teams'}
       ],
       /* Sub Drawer menu with settings */
