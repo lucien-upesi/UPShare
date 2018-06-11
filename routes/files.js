@@ -32,6 +32,7 @@ router.use(needAuth)
 router.put('/', upload.array('files[]'), async (req, res) => {
   const rejectedFiles = []
   const addedFiles = []
+  const extras = JSON.parse(req.body.extras)
   for (let i = 0; i < req.files.length; i++) {
     let ext = req.files[i].originalname.substring(req.files[i].originalname.lastIndexOf('.') + 1)
     if (unauthType.indexOf(ext) > -1) {
@@ -44,8 +45,12 @@ router.put('/', upload.array('files[]'), async (req, res) => {
         file_name: req.files[i].originalname,
         file_folder: 0
       })
-      if (file.file_id) addedFiles.push(file)
-      else rejectedFiles.push(req.files[i])
+      if (file.file_id) {
+        addedFiles.push(file)
+        if (extras.inFolder) {
+          await new File().putIntoFolder(extras.inFolder, file.file_id)
+        }
+      } else rejectedFiles.push(req.files[i])
     }
   }
   res.json({success: addedFiles, error: rejectedFiles})
@@ -56,13 +61,23 @@ router.put('/folder', (req, res) => {
     owner_id: res.locals.user.user_id,
     file_name: req.body.file_name,
     file_folder: 1
-  }).then(folder => res.json(folder)).catch(e => res.json({error: e.toString()}))
+  }).then(folder => {
+    if (req.body.inFolder) {
+      return new File().putIntoFolder(req.body.inFolder, folder.file_id)
+    }
+  }).then(folder => res.json(folder))
+    .catch(e => res.json({error: e.toString()}))
 })
 
 router.get('/:id([a-z0-9+]{16})', (req, res) => {
-  new File().get(req.params.id).then(file => {
-    const src = `${strings.uploadPath}/${res.locals.user.user_id}/${file.file_id}.${file.file_type}`
-    res.sendFile(src)
+  new File().get(req.params.id).then(async file => {
+    if (file.file_folder) {
+      const files = await new File().folderContents(req.params.id)
+      res.json(files)
+    } else {
+      const src = `${strings.uploadPath}/${res.locals.user.user_id}/${file.file_id}.${file.file_type}`
+      res.sendFile(src)
+    }
   })
 })
 

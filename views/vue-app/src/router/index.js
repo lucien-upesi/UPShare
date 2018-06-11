@@ -79,7 +79,7 @@ export default new Router({
       component: Invitation
     },
     {
-      path: '/document/:id',
+      path: '/explore/:type/:id',
       name: 'Document',
       component: Document,
       props: true

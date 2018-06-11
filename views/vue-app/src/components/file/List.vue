@@ -2,29 +2,22 @@
   div
     h2 Dossiers
     div
-      v-btn(v-for="file in ownFiles", :key="file.file_id" v-if="file.file_folder === 1" flat :to='"/document/"+file.file_id')
+      v-btn(v-for="file in files", :key="file.file_id" v-if="file.file_folder === 1" flat :to='"/explore/folder/"+file.file_id')
         v-icon folder
         | {{file.file_name}}
 
     h2 Fichiers
     div
-      v-btn(v-for="file in ownFiles", :key="file.file_id" v-if="file.file_folder === 0" flat :to='"/document/"+file.file_id') {{file.file_name}}
+      v-btn(v-for="file in files", :key="file.file_id" v-if="file.file_folder === 0" flat :to='"/explore/document/"+file.file_id') {{file.file_name}}
 </template>
 
 <script>
-import axios from 'axios'
 export default {
   name: 'List',
-  props: ['filesType'],
+  props: ['files'],
   data: () => ({
-    ownFiles: false
   }),
   created () {
-    if (this.filesType === 'own') {
-      axios.get('/users/ownFiles').then(response => {
-        this.ownFiles = response.data
-      })
-    }
   }
 }
 </script>

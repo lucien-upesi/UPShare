@@ -12,14 +12,13 @@
             v-spacer
             v-btn(color='red', flat, @click.stop='close') Close
             v-btn(color='green', flat, @click.stop='addFolder') Add
-      FileUpload(help="Choose files", icon="file_upload", endpoint="/files", :extras="extras", v-on:response="update", multiple)
-
+      FileUpload(help="Choose files", icon="file_upload", endpoint="/files", :extras="extras", v-on:response="update", multiple, v-if="folderId")
       v-tabs(v-model='active' color="primary", slider-color='accent')
         v-tab(v-for='n, index in tabs', :key='index')
           | {{ n.title }}
         v-tab-item(v-for='n, index in tabs', :key='index')
           div(@contextmenu="show")
-            List(:filesType="n.filesType")
+            List(:files="ownFiles")
       v-menu(v-model='showMenu', :position-x='x', :position-y='y', offset-y, absolute)
         v-list
           v-list-tile(v-for='(item, index) in items', :key='index', @click='actions(item.action)')
@@ -31,10 +30,12 @@ import List from './List.vue'
 import FileUpload from './FileUpload.vue'
 import axios from 'axios'
 export default {
-  name: 'Document',
+  name: 'Files',
   components: {List, FileUpload},
+  props: ['folderId'],
   data: () => ({
     active: null,
+    ownFiles: [],
     tabs: [
       {title: 'My files', filesType: 'own'}, {title: 'Shared Files', filesType: 'shared'}
     ],
@@ -53,20 +54,36 @@ export default {
       }
     ]
   }),
+  created () {
+    this.getFiles()
+  },
+  watch: {
+    folderId (id) {
+      this.getFiles()
+    }
+  },
+  mounted () {
+    // console.log(this.folderId, "lol")
+  },
   computed: {
     extras () {
-      return {id: this.$store.state.user.user_id}
+      return {id: this.$store.state.user.user_id, inFolder: this.folderId}
     }
   },
   methods: {
     update (data) {
-      console.log(data)
+      console.log(data.success)
+      this.ownFiles.concat(data.success)
+      console.log(this.ownFiles)
     },
     addFolder () {
       if (this.$refs.form.validate()) {
-        axios.put(`/files/folder`, {file_name: this.folder_name}).then(response => {
+        axios.put(`/files/folder`, {file_name: this.folder_name, inFolder: this.folderId}).then(response => {
           if (response.data.error) this.errorMsg = response.data.error
-          else this.dialog = false
+          else {
+            this.dialog = false
+            this.ownFiles.push(response.data)
+          }
         })
       }
     },
@@ -88,6 +105,17 @@ export default {
     close () {
       this.dialog = false
       this.folder_name = ''
+    },
+    getFiles () {
+      if (this.folderId) {
+        axios.get(`/files/${this.folderId}`).then(response => {
+          this.ownFiles = response.data
+        })
+      } else {
+        axios.get('/users/ownFiles').then(response => {
+          this.ownFiles = response.data
+        })
+      }
     }
   }
 }

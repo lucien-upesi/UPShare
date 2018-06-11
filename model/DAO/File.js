@@ -21,5 +21,23 @@ class File extends CRUD {
       })
     })
   }
+  folderContents (id) {
+    return new Promise((resolve, reject) => {
+      this.db.query('SELECT f.file_id, f.file_type, f.file_created_at, f.file_updated_at, f.file_deleted, f.file_folder, f.owner_id, f.file_name ' +
+          'FROM file f, contains c ' +
+          'WHERE c.file_id = ? AND c.file_id_file = f.file_id', [id], (err, results) => {
+        if (err) reject(new Error(err.message))
+        else resolve(results)
+      })
+    })
+  }
+  putIntoFolder (folderId, fileId) {
+    return new Promise((resolve, reject) => {
+      this.db.query(`INSERT INTO contains(file_id, file_id_file) VALUES(?, ?)`, [folderId, fileId], (err) => {
+        if (err) reject(new Error(err.message))
+        else resolve(resolve(this.get(fileId)))
+      })
+    })
+  }
 }
 module.exports = File
