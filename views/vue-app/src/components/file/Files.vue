@@ -12,7 +12,9 @@
             v-spacer
             v-btn(color='red', flat, @click.stop='close') Close
             v-btn(color='green', flat, @click.stop='addFolder') Add
-      FileUpload(help="Choose files", icon="file_upload", endpoint="/files", :extras="extras", v-on:response="update", multiple, v-if="folderId")
+      div.d-inline-flex
+        slot
+        FileUpload(help="Choose files", icon="file_upload", endpoint="/files", :extras="extras", v-on:response="update", multiple, v-if="folderId")
       v-tabs(v-model='active' color="primary", slider-color='accent')
         v-tab(v-for='n, index in tabs', :key='index')
           | {{ n.title }}
@@ -29,9 +31,10 @@
 import List from './List.vue'
 import FileUpload from './FileUpload.vue'
 import axios from 'axios'
+import Back from '../Back/Back.vue'
 export default {
   name: 'Files',
-  components: {List, FileUpload},
+  components: {List, FileUpload, Back},
   props: ['folderId'],
   data: () => ({
     active: null,
@@ -72,9 +75,7 @@ export default {
   },
   methods: {
     update (data) {
-      console.log(data.success)
       this.ownFiles = this.ownFiles.concat(data.success)
-      console.log(this.ownFiles)
     },
     addFolder () {
       if (this.$refs.form.validate()) {

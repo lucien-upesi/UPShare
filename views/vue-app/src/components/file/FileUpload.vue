@@ -1,16 +1,16 @@
 <template lang="pug">
   v-form
     form(enctype="multipart/form-data")
-      label(for='file_input')
+      v-btn(icon, @click="open", flat, fab color="accent")
         v-icon(large) {{ icon }}
-      input(v-if='!hidden', type="file", accept="*", name="files", @change="fileChange", ref="file_input", :multiple='multiple')
+      input(v-if='!hidden', type="file", accept="*", name="files", @change="fileChange", ref="file_input", :multiple='multiple', hidden)
       small {{ help }}
       slot
       div(v-if='active')
         v-btn(v-on:click='send') OK
         v-btn(v-on:click='reset') Annuler
         v-progress-circular(:value='loaded' v-if='onUpload' color='primary')
-      // Alert(:type='alertType' duration='5000', :active='alert', v-on:alertAnimationEnd='alertEnd', transition='slide-y-transition') {{ alertMsg }}
+      Alert(:type='alertType' duration='3000', :active='alert', v-on:alertAnimationEnd='alertEnd', transition='slide-y-transition') {{ alertMsg }}
         br
         small(v-if="alertType === 'error'") {{ errorCode }}
 </template>
@@ -20,7 +20,8 @@ import axios from 'axios'
 import Alert from '../Alert/Alert.vue'
 export default {
   name: 'FileUpload',
-  components: { Alert },
+  components: {
+    Alert },
   props: ['endpoint', 'help', 'icon', 'extras', 'disabled', 'hidden', 'multiple'],
   data () {
     return {
@@ -35,6 +36,9 @@ export default {
     }
   },
   methods: {
+    open () {
+      this.$refs.file_input.click()
+    },
     fileChange (e) {
       this.active = !this.active
       if (e.target.files[0]) {
@@ -66,7 +70,7 @@ export default {
         this.alert = true
         if (!response.data.error) {
           this.alertType = 'success'
-          this.alertMsg = 'Fichier envoyé'
+          this.alertMsg = 'Fichier(s) envoyé'
         } else {
           this.alertType = 'error'
           this.alertMsg = 'Une erreur est survenue'

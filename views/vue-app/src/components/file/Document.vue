@@ -3,15 +3,17 @@
       v-flex(xs12)
         iframe(:src="src", frameborder="0", scrolling="no" height="100%" width="100%" v-if="type === 'document'")
         Files(v-else, :folderId="id")
+          Back
 </template>
 
 <script>
 import axios from 'axios'
 import Files from '../file/Files.vue'
+import Back from '../Back/Back.vue'
 export default {
   name: 'Document',
   props: ['id', 'type'],
-  components: {Files},
+  components: {Files, Back},
   data: () => ({
     src: null
   }),
