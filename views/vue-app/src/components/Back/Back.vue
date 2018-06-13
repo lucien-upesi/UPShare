@@ -1,6 +1,5 @@
 <template lang="pug">
-  div
-    v-btn(@click='back', icon, fab)
+    v-btn(@click='back', icon, color="accent")
       v-icon navigate_before
 </template>
 

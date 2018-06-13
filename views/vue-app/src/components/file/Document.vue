@@ -1,9 +1,10 @@
 <template lang="pug">
-    v-layout(style="margin:0px;padding:0px;overflow:hidden")
+  div.d-flex(style="width: 100%; height:100%; flex-direction: column")
+    Back
+    v-layout(wrap row v-if="type === 'document'")
       v-flex(xs12)
-        iframe(:src="src", frameborder="0", scrolling="no" height="100%" width="100%" v-if="type === 'document'")
-        Files(v-else, :folderId="id")
-          Back
+        iframe(:src="src", frameborder="0", scrolling="no" height="100%" width="100%")
+    Files(v-else, :folderId="id")
 </template>
 
 <script>

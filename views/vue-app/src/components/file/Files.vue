@@ -12,9 +12,7 @@
             v-spacer
             v-btn(color='red', flat, @click.stop='close') Close
             v-btn(color='green', flat, @click.stop='addFolder') Add
-      div.d-inline-flex
-        slot
-        FileUpload(help="Choose files", icon="file_upload", endpoint="/files", :extras="extras", v-on:response="update", multiple, v-if="folderId")
+      FileUpload(help="Import files", icon="file_upload", endpoint="/files", :extras="extras", v-on:response="update", multiple, v-if="folderId")
       v-tabs(v-model='active' color="primary", slider-color='accent')
         v-tab(v-for='n, index in tabs', :key='index')
           | {{ n.title }}

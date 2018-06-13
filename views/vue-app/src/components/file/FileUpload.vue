@@ -1,7 +1,7 @@
 <template lang="pug">
   v-form
     form(enctype="multipart/form-data")
-      v-btn(icon, @click="open", flat, fab color="accent")
+      v-btn(icon, @click="open", flat, fab color="success")
         v-icon(large) {{ icon }}
       input(v-if='!hidden', type="file", accept="*", name="files", @change="fileChange", ref="file_input", :multiple='multiple', hidden)
       small {{ help }}
@@ -10,9 +10,8 @@
         v-btn(v-on:click='send') OK
         v-btn(v-on:click='reset') Annuler
         v-progress-circular(:value='loaded' v-if='onUpload' color='primary')
-      Alert(:type='alertType' duration='3000', :active='alert', v-on:alertAnimationEnd='alertEnd', transition='slide-y-transition') {{ alertMsg }}
-        br
-        small(v-if="alertType === 'error'") {{ errorCode }}
+      Alert(v-on:done="alertEnd" transitionName="slide-y-transition", :alertType="alertType", outlineMode=false, :visibility="alert", durationTime="2000")
+        span {{ alertMsg }}
 </template>
 
 <script>
@@ -68,7 +67,7 @@ export default {
       }).then(response => {
         this.reset()
         this.alert = true
-        if (!response.data.error) {
+        if (response.data.error.length < 1) {
           this.alertType = 'success'
           this.alertMsg = 'Fichier(s) envoyé'
         } else {
