@@ -73,7 +73,7 @@ export default {
   methods: {
     update (data) {
       console.log(data.success)
-      this.ownFiles.concat(data.success)
+      this.ownFiles = this.ownFiles.concat(data.success)
       console.log(this.ownFiles)
     },
     addFolder () {
@@ -112,7 +112,7 @@ export default {
           this.ownFiles = response.data
         })
       } else {
-        axios.get('/users/ownFiles').then(response => {
+        axios.get('/users/rootFiles').then(response => {
           this.ownFiles = response.data
         })
       }

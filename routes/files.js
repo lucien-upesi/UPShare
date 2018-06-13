@@ -64,7 +64,7 @@ router.put('/folder', (req, res) => {
   }).then(folder => {
     if (req.body.inFolder) {
       return new File().putIntoFolder(req.body.inFolder, folder.file_id)
-    }
+    } else return folder
   }).then(folder => res.json(folder))
     .catch(e => res.json({error: e.toString()}))
 })

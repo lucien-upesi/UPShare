@@ -67,4 +67,8 @@ router.get('/ownFiles', (req, res) => {
   new User().getOwnFiles(res.locals.user.user_id).then(files => res.send(files)).catch(e => res.json({error: e.toString()}))
 })
 
+router.get('/rootFiles', (req, res) => {
+  new User().getRootFiles(res.locals.user.user_id).then(files => res.send(files)).catch(e => res.json({error: e.toString()}))
+})
+
 module.exports = router

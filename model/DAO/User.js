@@ -212,6 +212,15 @@ class User extends CRUD {
       this.db.query(`SELECT `)
     })
   }
+  getRootFiles (id) {
+    return new Promise((resolve, reject) => {
+      this.db.query(`SELECT f.file_id, f.file_type, f.file_created_at, f.file_updated_at, f.file_deleted, f.file_folder, f.owner_id, f.file_name 
+FROM file f WHERE f.file_id NOT IN(SELECT c.file_id_file FROM contains c) AND f.owner_id = ?`, [id], (err, results) => {
+        if (err) reject(new Error(err.message))
+        else resolve(results)
+      })
+    })
+  }
 }
 
 module.exports = User
